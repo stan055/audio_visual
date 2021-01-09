@@ -20,7 +20,7 @@ var blob = window.URL || window.webkitURL;
 
     document.getElementById('file').addEventListener('change', function(event){
 
-      consolePrint('change on input#file triggered');
+      console.log('change on input#file triggered');
       var file = this.files[0],
        fileURL = blob.createObjectURL(file);
       console.log(file);
