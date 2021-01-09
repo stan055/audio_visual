@@ -15,7 +15,7 @@ drawVisualizer()
 var blob = window.URL || window.webkitURL;
     if (!blob) {
         console.log('Your browser does not support Blob URLs :(');
-        return;           
+                 
     }
 
     document.getElementById('file').addEventListener('change', function(event){
