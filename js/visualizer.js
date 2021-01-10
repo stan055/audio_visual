@@ -29,9 +29,10 @@ let ctx;
 let array;
 
 function preparation(){
-    const context = new AudioContext()
-        || window.webkitAudioContext // Safari and old versions of Chrome
+    const context = window.AudioContext
+        || window.webkitAudioContext
         || false;
+        
     analyser = context.createAnalyser();
     analyser.fftSize = 128;
     const src = context.createMediaElementSource(audio);
