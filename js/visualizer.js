@@ -30,23 +30,18 @@ let array;
 
 function preparation(){
     
-    var AudioContext = window.AudioContext || window.webkitAudioContext || null;
-
-    if (!AudioContext) 
-        console.log('AudioContext = null');
-
-    const context = new AudioContext();
+    var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
     
-    analyser = context.createAnalyser();
+    analyser = audioCtx.createAnalyser();
     analyser.fftSize = 128;
-    const src = context.createMediaElementSource(audio);
+    const src = audioCtx.createMediaElementSource(audio);
     src.connect(analyser);
-    analyser.connect(context.destination);
+    analyser.connect(audioCtx.destination);
 
     bufferLength = analyser.frequencyBinCount;
+
     ctx = visualizer.getContext('2d')
     array = new Uint8Array(analyser.frequencyBinCount);
-
     loop();
 }
 
@@ -54,7 +49,6 @@ function loop(){
     window.requestAnimationFrame(loop);
 
     analyser.getByteFrequencyData(array);
-
     const width = visualizer.width
     const height = visualizer.height
     const barWidth = width / bufferLength;
@@ -63,11 +57,10 @@ function loop(){
     ctx.lineCap = 'round';
     ctx.lineWidth = barWidth;
     ctx.clearRect(0, 0, width, height)
-
+    
     array.forEach((item, index) => {
-      const y = item / 255 * 150;
+      const y = item / 255 * height / 3;
       const x = (barWidth * index) + barWidth / 2
-
       ctx.strokeStyle = `hsl(${y / height * 600}, 100%, 60%)`;
       
       ctx.beginPath();
