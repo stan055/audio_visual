@@ -32,7 +32,10 @@ function preparation(){
     const context = window.AudioContext
         || window.webkitAudioContext
         || false;
-        
+
+        if (!context) {
+            alert("Sorry, but the Web Audio API is not supported by your browser. Please, consider upgrading to the latest version or downloading Google Chrome or Mozilla Firefox");
+        }
     analyser = context.createAnalyser();
     analyser.fftSize = 128;
     const src = context.createMediaElementSource(audio);
