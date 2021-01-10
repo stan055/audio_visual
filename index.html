@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <script src="script.js" defer></script>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style/style.css">
+    <title>Document</title>
 </head>
 <body>
-  <canvas id="visualizer"></canvas>
-  <div class="grid">
-      <label for="volume">Volume</label>
-      <input type="range" min="0" max="1" value="0.1" step=".01" id="volume">
-    <div>
-    <audio id="audio" controls src="Hawaii - Aloha Oe.mp3"></audio>
+    <canvas id="visualizer"></canvas>
+    <audio id="audio" src=""></audio>
+    
+    <div class="file-drop-area">
+        <span class="fake-btn">Choose file</span>
+        <span class="file-msg">or drag and drop files here</span>
+        <input accept="audio/*" class="file-input" type="file" id="file">
     </div>
-    <input type="file" id="file"></input>
-  </div>
 </body>
+<script src="js/choose_file.js"></script>
+<script src="js/visualizer.js"></script>
 </html>
