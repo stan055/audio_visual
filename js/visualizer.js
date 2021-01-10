@@ -30,7 +30,11 @@ let array;
 
 function preparation(){
     
-    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    var AudioContext = window.AudioContext || window.webkitAudioContext || null;
+
+    if (!AudioContext) 
+        console.log('AudioContext = null');
+
     const context = new AudioContext();
     
     analyser = context.createAnalyser();
