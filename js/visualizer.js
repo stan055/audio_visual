@@ -29,13 +29,10 @@ let ctx;
 let array;
 
 function preparation(){
-    const context = new window.AudioContext
-        
-
-        if (!context) {
-            alert("Sorry, but the Web Audio API is not supported by your browser. Please, consider upgrading to the latest version or downloading Google Chrome or Mozilla Firefox");
-        }
-
+    
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    const context = new AudioContext();
+    
     analyser = context.createAnalyser();
     analyser.fftSize = 128;
     const src = context.createMediaElementSource(audio);
