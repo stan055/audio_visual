@@ -29,7 +29,11 @@ let ctx;
 let array;
 
 function preparation(){
-    const context = new AudioContext();
+    const context = new AudioContext()
+    var AudioContext = window.AudioContext // Default
+        || window.webkitAudioContext // Safari and old versions of Chrome
+        || false;
+        
     analyser = context.createAnalyser();
     analyser.fftSize = 128;
     const src = context.createMediaElementSource(audio);
