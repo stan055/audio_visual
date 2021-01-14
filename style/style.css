@@ -46,8 +46,8 @@ body {
 
 .file-input {
   position: absolute;
-  left: 100px;
-  top: 100px;
+  bottom: 0px;
+  left: 0;
   height: 100%;
   width: 100%;
   cursor: pointer;
@@ -59,10 +59,10 @@ body {
 
 canvas {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 200px;
-  height: 200px;
+  display: flex;
+  align-items: center;
+  width: 440px;
+  height: 120px;
   z-index: -1;
   pointer-events: none;
 }

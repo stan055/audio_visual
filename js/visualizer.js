@@ -31,7 +31,7 @@ let array;
 function preparation(){
     const context = new AudioContext();
     analyser = context.createAnalyser();
-    analyser.fftSize = 64;
+    analyser.fftSize = 128;
     const src = context.createMediaElementSource(audio);
     src.connect(analyser);
     analyser.connect(context.destination);
@@ -41,6 +41,9 @@ function preparation(){
     array = new Uint8Array(analyser.frequencyBinCount);
 
     loop();
+
+    //Set caption text
+    $('#captionWave5').text('Wave#5');
 }
 
 function loop(){
@@ -48,40 +51,39 @@ function loop(){
 
     analyser.getByteFrequencyData(array);
 
-    const width = 400;
-    const height = 200;
-    const barWidth = width / bufferLength;
+    const paddingBottom = 10;
+    const itemCount = 45;
+    const width = visualizer.width;
+    const height = visualizer.height - paddingBottom;
+    const space = 4;
+    const barWidth = (width / itemCount) - space;
+    const startX = (barWidth / 2);
+    const heightWave = 11;
 
+    // Text
+    ctx.font = "7px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
 
+    // Line
     ctx.lineCap = 'round';
     ctx.lineWidth = barWidth;
-    ctx.clearRect(0, 0, width, height)
+    ctx.clearRect(0, paddingBottom, width, height)
 
     for (let index = 0; index < 45; index++) {
-        const y = array[index] / 255 * 150;
-        const x = (barWidth * index) + (barWidth / 2) + (3 * index);
+        const y = array[index] / heightWave;
+        const x = (barWidth * index) + startX + index * space;
   
-        ctx.strokeStyle = `hsl(${y / height * 600}, 100%, 60%)`;
+        ctx.strokeStyle = `hsl(${y / height * 400}, 100%, 65%)`;
         
         ctx.beginPath();
         ctx.moveTo(x, height - y);
         ctx.lineTo(x , height);
         ctx.stroke();        
+        ctx.fillText(index+1, x, height + 10);
+        
+
     }
-
-    // array.forEach((item, index) => {
-    //   const y = item / 255 * 150;
-    //   const x = (barWidth * index) + barWidth / 2
-
-    //   ctx.strokeStyle = `hsl(${y / height * 600}, 100%, 60%)`;
-      
-    //   ctx.beginPath();
-    //   ctx.moveTo(x, height - y);
-    //   ctx.lineTo(x , height);
-    //   ctx.stroke();
-
-    // })
-
 }
 
 setupEventListeners();
