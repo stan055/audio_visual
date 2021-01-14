@@ -43,12 +43,16 @@ function preparation(){
     ctx = visualizer.getContext('2d')
     array = new Uint8Array(analyser.frequencyBinCount);
     loop();
+
+    //Set caption text
+    $('#captionWave5').text('Wave#5');
 }
 
 function loop(){
     window.requestAnimationFrame(loop);
 
     analyser.getByteFrequencyData(array);
+<<<<<<< HEAD
     const width = visualizer.width
     const height = visualizer.height
     const barWidth = width / bufferLength;
@@ -69,7 +73,42 @@ function loop(){
       ctx.stroke();
 
     })
+=======
 
+    const paddingBottom = 10;
+    const itemCount = 45;
+    const width = visualizer.width;
+    const height = visualizer.height - paddingBottom;
+    const space = 4;
+    const barWidth = (width / itemCount) - space;
+    const startX = (barWidth / 2);
+    const heightWave = 11;
+
+    // Text
+    ctx.font = "7px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+
+    // Line
+    ctx.lineCap = 'round';
+    ctx.lineWidth = barWidth;
+    ctx.clearRect(0, paddingBottom, width, height)
+
+    for (let index = 0; index < 45; index++) {
+        const y = array[index] / heightWave;
+        const x = (barWidth * index) + startX + index * space;
+  
+        ctx.strokeStyle = `hsl(${y / height * 400}, 100%, 65%)`;
+        
+        ctx.beginPath();
+        ctx.moveTo(x, height - y);
+        ctx.lineTo(x , height);
+        ctx.stroke();        
+        ctx.fillText(index+1, x, height + 10);
+        
+>>>>>>> dev
+
+    }
 }
 
 setupEventListeners();
