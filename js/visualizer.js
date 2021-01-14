@@ -52,28 +52,6 @@ function loop(){
     window.requestAnimationFrame(loop);
 
     analyser.getByteFrequencyData(array);
-<<<<<<< HEAD
-    const width = visualizer.width
-    const height = visualizer.height
-    const barWidth = width / bufferLength;
-
-
-    ctx.lineCap = 'round';
-    ctx.lineWidth = barWidth;
-    ctx.clearRect(0, 0, width, height)
-    
-    array.forEach((item, index) => {
-      const y = item / 255 * height / 3;
-      const x = (barWidth * index) + barWidth / 2
-      ctx.strokeStyle = `hsl(${y / height * 600}, 100%, 60%)`;
-      
-      ctx.beginPath();
-      ctx.moveTo(x, height - y);
-      ctx.lineTo(x , height);
-      ctx.stroke();
-
-    })
-=======
 
     const paddingBottom = 10;
     const itemCount = 45;
@@ -105,8 +83,6 @@ function loop(){
         ctx.lineTo(x , height);
         ctx.stroke();        
         ctx.fillText(index+1, x, height + 10);
-        
->>>>>>> dev
 
     }
 }
