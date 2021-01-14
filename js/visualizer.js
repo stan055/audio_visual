@@ -49,7 +49,6 @@ function preparation(){
 }
 
 function loop(){
-    window.requestAnimationFrame(loop);
 
     analyser.getByteFrequencyData(array);
 
@@ -83,6 +82,8 @@ function loop(){
         ctx.stroke();        
         ctx.fillText(index+1, x, height + 10);
     }
+
+    window.requestAnimationFrame(loop);
 }
 
 setupEventListeners();
