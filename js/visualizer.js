@@ -57,8 +57,8 @@ function loop(){
     const itemCount = 45;
     const width = visualizer.width;
     const height = visualizer.height - paddingBottom;
-    const space = 4;
-    const barWidth = (width / itemCount) - space;
+    const space = (width / itemCount) / 2;
+    const barWidth = (width / itemCount) / 2;
     const startX = (barWidth / 2);
     const heightWave = 5;
 
