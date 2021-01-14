@@ -60,7 +60,7 @@ function loop(){
     const space = 4;
     const barWidth = (width / itemCount) - space;
     const startX = (barWidth / 2);
-    const heightWave = 11;
+    const heightWave = 6;
 
     // Text
     ctx.font = "7px Arial";
@@ -68,7 +68,6 @@ function loop(){
     ctx.textAlign = "center";
 
     // Line
-    ctx.lineCap = 'round';
     ctx.lineWidth = barWidth;
     ctx.clearRect(0, paddingBottom, width, height)
 
@@ -80,7 +79,7 @@ function loop(){
         
         ctx.beginPath();
         ctx.moveTo(x, height - y);
-        ctx.lineTo(x , height);
+        ctx.lineTo(x , height + 2);
         ctx.stroke();        
         ctx.fillText(index+1, x, height + 10);
     }
