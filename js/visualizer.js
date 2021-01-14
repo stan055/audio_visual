@@ -31,7 +31,7 @@ let array;
 function preparation(){
     const context = new AudioContext();
     analyser = context.createAnalyser();
-    analyser.fftSize = 128;
+    analyser.fftSize = 64;
     const src = context.createMediaElementSource(audio);
     src.connect(analyser);
     analyser.connect(context.destination);
@@ -48,8 +48,8 @@ function loop(){
 
     analyser.getByteFrequencyData(array);
 
-    const width = visualizer.width
-    const height = visualizer.height
+    const width = 400;
+    const height = 200;
     const barWidth = width / bufferLength;
 
 
@@ -57,18 +57,30 @@ function loop(){
     ctx.lineWidth = barWidth;
     ctx.clearRect(0, 0, width, height)
 
-    array.forEach((item, index) => {
-      const y = item / 255 * 150;
-      const x = (barWidth * index) + barWidth / 2
+    for (let index = 0; index < 45; index++) {
+        const y = array[index] / 255 * 150;
+        const x = (barWidth * index) + (barWidth / 2) + (3 * index);
+  
+        ctx.strokeStyle = `hsl(${y / height * 600}, 100%, 60%)`;
+        
+        ctx.beginPath();
+        ctx.moveTo(x, height - y);
+        ctx.lineTo(x , height);
+        ctx.stroke();        
+    }
 
-      ctx.strokeStyle = `hsl(${y / height * 600}, 100%, 60%)`;
+    // array.forEach((item, index) => {
+    //   const y = item / 255 * 150;
+    //   const x = (barWidth * index) + barWidth / 2
+
+    //   ctx.strokeStyle = `hsl(${y / height * 600}, 100%, 60%)`;
       
-      ctx.beginPath();
-      ctx.moveTo(x, height - y);
-      ctx.lineTo(x , height);
-      ctx.stroke();
+    //   ctx.beginPath();
+    //   ctx.moveTo(x, height - y);
+    //   ctx.lineTo(x , height);
+    //   ctx.stroke();
 
-    })
+    // })
 
 }
 
