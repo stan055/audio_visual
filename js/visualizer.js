@@ -33,7 +33,7 @@ function preparation(){
     var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
     
     analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 128;
+    analyser.fftSize = 256;
     const src = audioCtx.createMediaElementSource(audio);
     src.connect(analyser);
     analyser.connect(audioCtx.destination);
@@ -60,7 +60,7 @@ function loop(){
     const space = 4;
     const barWidth = (width / itemCount) - space;
     const startX = (barWidth / 2);
-    const heightWave = 6;
+    const heightWave = 5;
 
     // Text
     ctx.font = "7px Arial";
