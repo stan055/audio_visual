@@ -83,7 +83,6 @@ function loop(){
         ctx.lineTo(x , height);
         ctx.stroke();        
         ctx.fillText(index+1, x, height + 10);
-
     }
 }
 
