@@ -59,7 +59,7 @@ function loop(){
     const space = (width / itemCount) / 2 + ((width / itemCount) / 7);
     const barWidth = (width / itemCount) / 2 - ((width / itemCount) / 7);
     const startX = (barWidth / 2);
-    const heightWave = 28;
+    const heightWave = 27;
 
     // Text
     ctx.font = "7px Arial";
