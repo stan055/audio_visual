@@ -56,10 +56,10 @@ function loop(){
     const itemCount = 45;
     const width = visualizer.width;
     const height = visualizer.height - paddingBottom;
-    const space = (width / itemCount) / 2 + ((width / itemCount) / 8);
-    const barWidth = (width / itemCount) / 2 - ((width / itemCount) / 8);
+    const space = (width / itemCount) / 2 + ((width / itemCount) / 7);
+    const barWidth = (width / itemCount) / 2 - ((width / itemCount) / 7);
     const startX = (barWidth / 2);
-    const heightWave = 5;
+    const heightWave = 28;
 
     // Text
     ctx.font = "7px Arial";
@@ -71,7 +71,7 @@ function loop(){
     ctx.clearRect(0, paddingBottom, width, height)
 
     for (let index = 0; index < 45; index++) {
-        const y = array[index] / heightWave;
+        const y = array[index] / height * heightWave;
         const x = (barWidth * index) + startX + index * space;
   
         ctx.strokeStyle = `hsl(${y / height * 400}, 100%, 65%)`;
