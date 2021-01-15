@@ -1,9 +1,3 @@
-const visualizer = document.getElementById('visualizer')
-const audio = document.getElementById("audio");
-
-let analyser;
-let ctx;
-let array;
 
 var blob = window.URL || window.webkitURL;
     if (!blob) {
@@ -11,7 +5,7 @@ var blob = window.URL || window.webkitURL;
                  
     }
 
-    document.getElementById('file').addEventListener('change', function(event){
+document.getElementById('file').addEventListener('change', function(event){
 
       console.log('change on input#file triggered');
       var file = this.files[0],
@@ -29,26 +23,26 @@ var blob = window.URL || window.webkitURL;
 
 
 function preparation(){
-    
+    const visualizer = document.getElementById('visualizer')
+    const audio = document.getElementById("audio");
     var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
     
-    analyser = audioCtx.createAnalyser();
+    const analyser = audioCtx.createAnalyser();
     analyser.fftSize = 256;
     const src = audioCtx.createMediaElementSource(audio);
     src.connect(analyser);
     analyser.connect(audioCtx.destination);
 
-    ctx = visualizer.getContext('2d')
-    array = new Uint8Array(analyser.frequencyBinCount);
+    const ctx = visualizer.getContext('2d')
     
-    getSize();
-    getValue();
-    drawWave5();
+    
+    getSize(visualizer);
+    calculatingWave5(analyser, ctx);
 }
 
 
 // Size canvas
-function getSize() {
+function getSize(visualizer) {
     visualizer.width = visualizer.clientWidth * window.devicePixelRatio
     visualizer.height = visualizer.clientHeight * window.devicePixelRatio
 }
