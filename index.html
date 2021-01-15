@@ -15,7 +15,17 @@
         <div>
         <input type="range" id="widthItem" name="widthItem"
                 min="0" max="0.5" value="0.2" step="0.1">
-        <label for="widthItem">Width Item<span id="valueWidthItem"></span></label>
+        <label for="widthItem">Width Items
+            <span id="valueWidthItem">0.2</span>
+        </label>
+        </div>
+
+        <div>
+            <input type="range" id="heightItem" name="heightItem"
+                    min="0" max="200" value="60" step="1">
+            <label for="heightItem">Height Items
+                <span id="valueHeightItem">60</span>
+            </label>
         </div>
 
         <canvas id="visualizer"></canvas>

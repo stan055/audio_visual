@@ -1,6 +1,8 @@
 const widthItem = document.getElementById('widthItem');
 const valueWidthItem = document.getElementById('valueWidthItem');
 
+const heightItem = document.getElementById('heightItem');
+const valueHeightItem = document.getElementById('valueHeightItem');
 
 widthItem.addEventListener("input", e => {
     if (analyser) {
@@ -14,5 +16,17 @@ widthItem.addEventListener("input", e => {
     }
 
     valueWidthItem.innerHTML = ' ' + e.target.value;
+});
+
+heightItem.addEventListener("input", e => {
+    visualizer.height = e.target.value;
+
+    visualizer.style.height = `${e.target.value}px`;
+
+
+    getValue()
+
+
+    valueHeightItem.innerHTML = ' ' + e.target.value;
 });
 
