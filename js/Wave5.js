@@ -36,7 +36,7 @@ class Wave5 {
         this.itemCount = itemCount;
         this.height = canvas.height + this.paddingBottom;
 
-        this.part = ((this.width / this.itemCount) * 0.2);
+        this.part = ((this.width / this.itemCount) * this.countPart);
         this.space = (this.width / this.itemCount) / 2 + this.part;
         this.barWidth = (this.width / this.itemCount) / 2 - this.part;
         this.startX = (this.barWidth / 2);
