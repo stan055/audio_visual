@@ -5,6 +5,7 @@ class Wave5 {
     height = 0;
     minHeight = 3;
     part = 0;
+    countPart;
     space = 0;
     barWidth = 0;
     startX = 0;
@@ -15,7 +16,7 @@ class Wave5 {
     ctx;
     canvas;
 
-    constructor(audioCtx, audio, canvas, itemCount) {
+    constructor(audioCtx, audio, canvas, itemCount = 45, minHeight = 3, countPart = 0.2) {
 
         this.canvas = canvas;
         this.analyser = audioCtx.createAnalyser();
@@ -28,7 +29,9 @@ class Wave5 {
         this.ctx = this.canvas.getContext('2d');
 
         this.getSize();
-
+        
+        this.minHeight = minHeight;
+        this.countPart = countPart;
         this.width = this.canvas.width;
         this.itemCount = itemCount;
         this.height = canvas.height + this.paddingBottom;
