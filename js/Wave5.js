@@ -3,7 +3,7 @@ class Wave5 {
     itemCount = 0;
     width = 0;
     height = 0;
-    minHeight = 3;
+    minHeight = 0;
     part = 0;
     countPart;
     space = 0;
@@ -29,7 +29,7 @@ class Wave5 {
         this.ctx = this.canvas.getContext('2d');
 
         this.getSize();
-        
+
         this.minHeight = minHeight;
         this.countPart = countPart;
         this.width = this.canvas.width;
