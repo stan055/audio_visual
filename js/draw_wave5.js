@@ -14,17 +14,12 @@ function calculatingWave5(analyser, ctx) {
     ctx.lineWidth = barWidth;
     const array = new Uint8Array(analyser.frequencyBinCount);
 
-    createSettingListeters(analyser, part, space, width, barWidth, startX, ctx, 
-                            itemCount, canvasHeight, visualizer);
+    createSettingListeters(analyser, part, space, width, barWidth, startX, ctx, itemCount);
 
     drawWave5(analyser, itemCount, canvasHeight, startX, space, barWidth,
         width, height, minHeight, array, ctx);
 
-
-    
 }
-
-
 
 
 // Drawing
@@ -48,20 +43,21 @@ function drawWave5(analyser, itemCount, canvasHeight, startX, space, barWidth,
             arraySteps.push(step);
         }
 
-        draw(arrayHeightBars, arraySteps);
+        draw(ctx, arrayHeightBars, arraySteps, height);
         window.requestAnimationFrame(createArraysData);
 
     };
 
-    function draw(arrayHeightBars, arraySteps) {
-        for (let i = 0; i < arrayHeightBars.length; i++) {
-            ctx.strokeStyle = `hsl(${arrayHeightBars[i] / (height*5) * 600}, 75%, 55%)`;
-            ctx.beginPath();
-            ctx.moveTo(arraySteps[i], height);
-            ctx.lineTo(arraySteps[i], height - arrayHeightBars[i]);
-            ctx.stroke();
-        }
-    }
-
     createArraysData();
+}
+
+
+function draw(ctx, arrayHeightBars, arraySteps, height) {
+    for (let i = 0; i < arrayHeightBars.length; i++) {
+        ctx.strokeStyle = `hsl(${arrayHeightBars[i] / (height*5) * 600}, 75%, 55%)`;
+        ctx.beginPath();
+        ctx.moveTo(arraySteps[i], height);
+        ctx.lineTo(arraySteps[i], height - arrayHeightBars[i]);
+        ctx.stroke();
+    }
 }
