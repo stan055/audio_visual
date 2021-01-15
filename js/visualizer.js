@@ -32,10 +32,3 @@ function preparation(){
     
     drawWave5();
 }
-
-
-// Size canvas
-function getSize(visualizer) {
-    visualizer.width = visualizer.clientWidth * window.devicePixelRatio
-    visualizer.height = visualizer.clientHeight * window.devicePixelRatio
-}
