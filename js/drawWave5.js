@@ -7,7 +7,7 @@ function getValue() {
     itemCount = 45;
     width = visualizer.width;
     height = visualizer.height - paddingBottom;
-    part = ((width / itemCount) / 8);
+    part = ((width / itemCount) * 0.2);
     space = (width / itemCount) / 2 + part;
     barWidth = (width / itemCount) / 2 - part;
     startX = (barWidth / 2);
