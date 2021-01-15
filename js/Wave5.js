@@ -5,7 +5,7 @@ class Wave5 {
     height = 0;
     minHeight = 0;
     part = 0;
-    countPart;
+    countPart = 0;
     space = 0;
     barWidth = 0;
     startX = 0;
@@ -16,11 +16,12 @@ class Wave5 {
     ctx;
     canvas;
 
-    constructor(audioCtx, audio, canvas, itemCount = 45, minHeight = 3, countPart = 0.2) {
+    constructor(audioCtx, audio, canvas, 
+                itemCount = 45, minHeight = 3, countPart = 0.2, fftSize = 256) {
 
         this.canvas = canvas;
         this.analyser = audioCtx.createAnalyser();
-        this.analyser.fftSize = 256;
+        this.analyser.fftSize = fftSize;
         
         this.src = audioCtx.createMediaElementSource(audio);
         this.src.connect(this.analyser);
