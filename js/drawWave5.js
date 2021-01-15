@@ -28,11 +28,11 @@ function drawWave5(){
         const y = array[index] / heightWave;
         const x = (barWidth * index) + startX + index * space;
   
-        ctx.strokeStyle = `hsl(${y / (height*5) * 700}, 75%, 55%)`;
+        ctx.strokeStyle = `hsl(${y / (height*5) * 600}, 75%, 55%)`;
         
         ctx.beginPath();
-        ctx.moveTo(x, height - y);
-        ctx.lineTo(x , height + 2);
+        ctx.moveTo(x, height);
+        ctx.lineTo(x , height - y - 3);
         ctx.stroke();        
     }
 
