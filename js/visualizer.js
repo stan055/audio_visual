@@ -1,6 +1,10 @@
 const visualizer = document.getElementById('visualizer')
 const audio = document.getElementById("audio");
 
+let analyser;
+let ctx;
+let array;
+
 var blob = window.URL || window.webkitURL;
     if (!blob) {
         console.log('Your browser does not support Blob URLs :(');
@@ -23,10 +27,6 @@ var blob = window.URL || window.webkitURL;
 
 });
 
-let analyser;
-let bufferLength;
-let ctx;
-let array;
 
 function preparation(){
     
@@ -38,62 +38,17 @@ function preparation(){
     src.connect(analyser);
     analyser.connect(audioCtx.destination);
 
-    bufferLength = analyser.frequencyBinCount;
-
     ctx = visualizer.getContext('2d')
     array = new Uint8Array(analyser.frequencyBinCount);
-    loop();
-
-    //Set caption text
-    $('#captionWave5').text('Wave#5');
+    
+    getSize();
+    getValue();
+    drawWave5();
 }
 
-function loop(){
 
-    analyser.getByteFrequencyData(array);
-
-    const paddingBottom = 10;
-    const itemCount = 45;
-    const width = visualizer.width;
-    const height = visualizer.height - paddingBottom;
-    const space = (width / itemCount) / 2 + ((width / itemCount) / 7);
-    const barWidth = (width / itemCount) / 2 - ((width / itemCount) / 7);
-    const startX = (barWidth / 2);
-    const heightWave = 27;
-
-    // Text
-    ctx.font = "7px Arial";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "center";
-
-    // Line
-    ctx.lineWidth = barWidth;
-    ctx.clearRect(0, paddingBottom, width, height)
-
-    for (let index = 0; index < 45; index++) {
-        const y = array[index] / height * heightWave;
-        const x = (barWidth * index) + startX + index * space;
-  
-        ctx.strokeStyle = `hsl(${y / height * 400}, 100%, 65%)`;
-        
-        ctx.beginPath();
-        ctx.moveTo(x, height - y);
-        ctx.lineTo(x , height + 2);
-        ctx.stroke();        
-        ctx.fillText(index+1, x, height + 10);
-    }
-
-    window.requestAnimationFrame(loop);
-}
-
-setupEventListeners();
-
-function setupEventListeners() {
-    resize();
-    window.addEventListener('resize', resize)
-}
-
-function resize() {
+// Size canvas
+function getSize() {
     visualizer.width = visualizer.clientWidth * window.devicePixelRatio
     visualizer.height = visualizer.clientHeight * window.devicePixelRatio
 }
