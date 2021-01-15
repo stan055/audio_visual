@@ -21,23 +21,16 @@ document.getElementById('file').addEventListener('change', function(event){
 
 });
 
+var wave5;
 
 function preparation(){
-    const visualizer = document.getElementById('visualizer')
+    const canvas = document.getElementById('visualizer')
     const audio = document.getElementById("audio");
     var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
     
-    const analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    const src = audioCtx.createMediaElementSource(audio);
-    src.connect(analyser);
-    analyser.connect(audioCtx.destination);
-
-    const ctx = visualizer.getContext('2d')
+    wave5 = new Wave5(audioCtx, audio, canvas, 45);
     
-    
-    getSize(visualizer);
-    calculatingWave5(analyser, ctx);
+    drawWave5();
 }
 
 

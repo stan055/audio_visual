@@ -1,63 +1,38 @@
 
-// Set variables & constants
-function calculatingWave5(analyser, ctx) {
-    const paddingBottom = 0;
-    const itemCount = 45;
-    let width = visualizer.width;
-    let height = visualizer.height - paddingBottom;
-    const minHeight = 3;
-    let part = ((width / itemCount) * 0.2);
-    let space = (width / itemCount) / 2 + part;
-    let barWidth = (width / itemCount) / 2 - part;
-    let startX = (barWidth / 2);
-    let canvasHeight = analyser.fftSize / visualizer.height; // bar ratio height
-    ctx.lineWidth = barWidth;
-    const array = new Uint8Array(analyser.frequencyBinCount);
-
-    createSettingListeters(analyser, part, space, width, barWidth, startX, ctx, itemCount);
-
-    drawWave5(analyser, itemCount, canvasHeight, startX, space, barWidth,
-        width, height, minHeight, array, ctx);
-
-}
-
-
 // Drawing
-function drawWave5(analyser, itemCount, canvasHeight, startX, space, barWidth,
-                    width, height, minHeight, array, ctx){
+function drawWave5(){
 
     function createArraysData() {
-        analyser.getByteFrequencyData(array);
+        wave5.analyser.getByteFrequencyData(wave5.array);
     
         // Clear canvas
-        ctx.clearRect(0, 0, width, height)
+        wave5.ctx.clearRect(0, 0, wave5.width, wave5.height)
         const arrayHeightBars = [];
         const arraySteps = [];
         
         // Create arrays height bars & step
-        for (let index = 0; index < itemCount; index++) {
-            const barHeight = array[index] / canvasHeight + minHeight;
-            const step = (barWidth * index) + (index * space) + startX;
-
+        for (let index = 0; index < wave5.itemCount; index++) {
+            const barHeight = wave5.array[index] / wave5.canvasHeight + wave5.minHeight;
+            const step = (wave5.barWidth * index) + (index * wave5.space) + wave5.startX;
             arrayHeightBars.push(barHeight);
             arraySteps.push(step);
         }
 
-        draw(ctx, arrayHeightBars, arraySteps, height);
+        draw(arrayHeightBars, arraySteps, wave5.height);
+
         window.requestAnimationFrame(createArraysData);
 
     };
-
     createArraysData();
 }
 
 
-function draw(ctx, arrayHeightBars, arraySteps, height) {
+function draw(arrayHeightBars, arraySteps, height) {
     for (let i = 0; i < arrayHeightBars.length; i++) {
-        ctx.strokeStyle = `hsl(${arrayHeightBars[i] / (height*5) * 600}, 75%, 55%)`;
-        ctx.beginPath();
-        ctx.moveTo(arraySteps[i], height);
-        ctx.lineTo(arraySteps[i], height - arrayHeightBars[i]);
-        ctx.stroke();
+        wave5.ctx.strokeStyle = `hsl(${arrayHeightBars[i] / (height*5) * 600}, 75%, 55%)`;
+        wave5.ctx.beginPath();
+        wave5.ctx.moveTo(arraySteps[i], height);
+        wave5.ctx.lineTo(arraySteps[i], height - arrayHeightBars[i]);
+        wave5.ctx.stroke();
     }
 }
