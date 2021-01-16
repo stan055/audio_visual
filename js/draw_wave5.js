@@ -6,6 +6,7 @@ function drawWave5(){
 
         // Clear canvas
         wave5.ctx.clearRect(0, 0, wave5.width, wave5.height)
+
         const arrayHeightBars = [];
         const arraySteps = [];
         
@@ -13,6 +14,7 @@ function drawWave5(){
         for (let index = 0; index < wave5.itemCount; index++) {
             const barHeight = wave5.array[index] / wave5.canvasHeight + wave5.minHeight;
             const step = (wave5.barWidth * index) + (index * wave5.space) + wave5.startX;
+
             arrayHeightBars.push(barHeight);
             arraySteps.push(step);
         }
