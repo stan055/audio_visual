@@ -1,9 +1,4 @@
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(to right, #161b2b, #b918b9);
   color: #e7e7e7;
   font-family: "Lato", sans-serif;
 }
@@ -15,6 +10,7 @@ body {
   width: 450px;
   max-width: 100%;
   bottom: 50px;
+  left: calc(50% - 450px / 2);
   padding: 25px;
   border: 1px dashed rgba(136, 136, 136, 0.4);
   border-radius: 3px;
@@ -33,6 +29,7 @@ body {
   margin-right: 10px;
   font-size: 12px;
   text-transform: uppercase;
+  color: white;
 }
 
 .file-msg {
@@ -57,7 +54,17 @@ body {
   outline: none;
 }
 
-canvas {
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+main h3 {
+  margin-top: 1rem;
+  text-align: center;
+  color: white;
+}
+main .wave5 {
   position: absolute;
   display: flex;
   top: 40vh;
@@ -66,9 +73,14 @@ canvas {
   z-index: -1;
   pointer-events: none;
 }
-
-h3 {
-  margin-top: 1rem;
+main .wave6 {
+  position: absolute;
+  display: flex;
+  top: 40vh;
+  width: 540px;
+  height: 140px;
+  z-index: -1;
+  pointer-events: none;
 }
 
 /*# sourceMappingURL=style.css.map */

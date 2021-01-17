@@ -1,42 +1,38 @@
-class Wave5 {
+class Wave {
   paddingBottom = 0;
   itemCount = 0;
-  width = 0;
-  height = 0;
   minHeight = 0;
-  part = 0;
-  countPart = 0;
-  space = 0;
-  barWidth = 0;
+  spacePart = 0;
+  partWidth = 0;
   startX = 0;
-  canvasHeight = 0;
   ctxLineWidth = 0;
   fftSize = 0;
   analyser;
   ctx;
   canvas;
+  draw;
 
-  constructor(canvas,
-              itemCount = 45, minHeight = 0, countPart = 0.2, fftSize = 256) {
-
+  constructor(canvas, itemCount = 45, minHeight = 0, spacePart = 0.2, fftSize = 256, paddingBottom = 0) {
     this.canvas = canvas;
-    this.ctx = this.canvas.getContext('2d');
     this.fftSize = fftSize;
-
-    this.getSize();
-
     this.minHeight = minHeight;
-    this.countPart = countPart;
-    this.width = this.canvas.width;
+    this.spacePart = spacePart;
     this.itemCount = itemCount;
-    this.height = canvas.height + this.paddingBottom;
+    this.paddingBottom = paddingBottom;
+
+    this.calculatingVariables();
+  }
+
+  calculatingVariables() {
+    this.getSize();
     
-    this.part = ((this.width / this.itemCount) * this.countPart);
-    this.space = (this.width / this.itemCount) / 2 + this.part;
-    this.barWidth = (this.width / this.itemCount) / 2 - this.part;
-    this.startX = (this.barWidth / 2);
-    this.canvasHeight = this.fftSize / this.canvas.height; // bar ratio height
-    this.ctx.lineWidth = this.barWidth;
+    this.partWidth = this.width / this.itemCount;
+    const part = this.partWidth * this.spacePart;
+    const barWidth = this.partWidth / 2 - part;
+    this.startX = barWidth / 2;
+    
+    this.ctx = this.canvas.getContext('2d');
+    this.ctx.lineWidth = barWidth;
   }
 
   getSize() {
@@ -44,23 +40,44 @@ class Wave5 {
     this.canvas.height = this.canvas.clientHeight * window.devicePixelRatio;
   }
 
+  get height() {return this.canvas.height;}
+  get width() {return this.canvas.width;}
 
-  draw(arrayHeightBars) {
+
+  draw5(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
-    console.log(arrayHeightBars[0]);
-
     for (let i = 0; i < arrayHeightBars.length; i++) {
-      wave5.ctx.strokeStyle = `hsl(${arrayHeightBars[i] * wave5.height / (this.height*5) * 600}, 75%, 55%)`;
-      wave5.ctx.beginPath();
+      this.ctx.strokeStyle = `hsl(${arrayHeightBars[i] * this.height / (this.height*5) * 600}, 75%, 55%)`;
+      this.ctx.beginPath();
 
-      const step = (this.barWidth * i) + (i * this.space) + this.startX;
+      const step = this.partWidth * i + this.startX;
+      const heightBar = arrayHeightBars[i] * this.height;
 
-      wave5.ctx.moveTo(step, this.height);
-      wave5.ctx.lineTo(step, this.height - arrayHeightBars[i] * wave5.height);
-      wave5.ctx.stroke();
+      this.ctx.moveTo(step, this.height);
+      this.ctx.lineTo(step, this.height - heightBar);
+      this.ctx.stroke();
     }
   }
+
+  draw6(arrayHeightBars) {
+    this.ctx.clearRect(0, 0, this.width, this.height)
+
+    for (let i = 0; i < arrayHeightBars.length; i++) {
+      this.ctx.strokeStyle = `hsl(${arrayHeightBars[i] * this.height / (this.height*5) * 600}, 75%, 55%)`;
+      this.ctx.beginPath();
+
+      const step = this.partWidth * i + this.startX;
+      const midCanvasY = this.height / 2;
+      const heightBar = arrayHeightBars[i] * this.height;
+
+      this.ctx.moveTo(step, midCanvasY + heightBar / 2);
+      this.ctx.lineTo(step, midCanvasY - heightBar + heightBar / 2);
+      this.ctx.stroke();
+    }
+  }
+
+
 }
 
 
@@ -72,7 +89,7 @@ if (!blob) {
 
 // Global var
 const canvas = document.getElementById('visualizer')
-const wave5 = new Wave5(canvas, 45);
+const wave = new Wave(canvas);
 let array;
 
 
@@ -87,17 +104,21 @@ document.getElementById('file').addEventListener('change', function(event){
 
 
   const analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 256;
+  
+  const sourceNode = audioCtx.createMediaElementSource(audio);
 
-
-  const src = audioCtx.createMediaElementSource(audio);
-  src.connect(analyser);
+  sourceNode.connect(analyser);
+  
   analyser.connect(audioCtx.destination);
 
   array = new Uint8Array(analyser.frequencyBinCount);
+  
+
+  wave.draw = chooseDrawFunction(canvas.getAttribute('name'), analyser);
+
 
   const recursiveDrawAudio = createRecursiveDrawFunction(analyser);
-
+  
   recursiveDrawAudio()
   audio.play();
 });
@@ -110,7 +131,7 @@ function createRecursiveDrawFunction(analyser) {
 
     const [arrayHeightBars] = normalizeAudioData(array)
 
-    wave5.draw(arrayHeightBars)
+    wave.draw(arrayHeightBars)
 
     window.requestAnimationFrame(recursiveDrawAudio);
   }
@@ -121,13 +142,37 @@ function createRecursiveDrawFunction(analyser) {
 
 function normalizeAudioData (array) {
   const arrayHeightBars = [];
-
-  // Create arrays height bars & step
-  for (let index = 0; index < wave5.itemCount; index++) {
-    const barHeight = array[index] / wave5.canvasHeight / wave5.height + wave5.minHeight;
+  // Create array height bars 
+  for (let index = 0; index < wave.itemCount; index++) {
+    const barHeight = array[index] / wave.fftSize + wave.minHeight;
 
     arrayHeightBars.push(barHeight);
   }
-
   return [arrayHeightBars]
+}
+
+
+function chooseDrawFunction(name, analyser) {
+  switch (name) {
+    case 'wave5':{
+      analyser.fftSize = 256;
+      wave.itemCount = 45;
+      wave.minHeight = 0.05;
+      wave.spacePart = 0.2;
+      wave.calculatingVariables()
+      return wave.draw5;
+    }
+    case 'wave6': {
+      analyser.fftSize = 2048;
+      analyser.minDecibels = -60;
+      analyser.maxDecibels = -10;
+      wave.itemCount = 93;
+      wave.minHeight = 0.05;
+      wave.spacePart = 0;
+      wave.calculatingVariables()
+      return wave.draw6;
+    }
+    default:
+      return null
+  }
 }
