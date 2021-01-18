@@ -46,7 +46,7 @@ class Wave {
     this.canvas.height = this.canvas.clientHeight * window.devicePixelRatio;
   }
 
-
+  // Draw Wave#5
   draw5(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
@@ -63,6 +63,7 @@ class Wave {
     }
   }
 
+  // Draw wave#6
   draw6(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
@@ -81,6 +82,7 @@ class Wave {
     }
   }
 
+  // Draw wave #7
   draw7(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
