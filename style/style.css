@@ -82,7 +82,7 @@ main .wave6 {
   display: flex;
   top: 40vh;
   width: 450px;
-  height: 140px;
+  height: 120px;
   z-index: -1;
   pointer-events: none;
 }

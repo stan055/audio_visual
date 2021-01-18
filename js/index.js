@@ -67,12 +67,13 @@ class Wave {
   draw6(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
+    const midCanvasY = this.height / 2;
+
     for (let i = 0; i < arrayHeightBars.length; i++) {
       this.ctx.strokeStyle = `hsl(284, 60%, 60%)`;
       this.ctx.beginPath();
 
       const step = this.partWidth * i + this.startX;
-      const midCanvasY = this.height / 2;
       const heightBar = arrayHeightBars[i] * this.height;
 
       this.ctx.moveTo(step, midCanvasY + heightBar / 2);
@@ -166,7 +167,7 @@ function chooseDrawFunction(name, analyser) {
     }
     case 'wave6': {
       analyser.fftSize = 2048;
-      analyser.minDecibels = -65; 
+      analyser.minDecibels = -60; 
       wave.calculatingVariables(93, 0.1);
       return wave.draw6;
     }
