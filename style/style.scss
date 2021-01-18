@@ -54,6 +54,11 @@ body {
       outline: none;
     }
   }
+
+.navbar
+      {
+          border-bottom:2px solid rgb(66, 66, 66);
+      }
   
   main {
     display: flex;
@@ -71,7 +76,7 @@ body {
       display: flex;
       top: 40vh;
       width: 450px;
-      height: 60px;
+      height: 100px;
       z-index: -1;
       pointer-events: none;
     }
@@ -80,8 +85,8 @@ body {
       position: absolute;
       display: flex;
       top: 40vh;
-      width: 540px;
-      height: 140px;
+      width: 450px;
+      height: 100px;
       z-index: -1;
       pointer-events: none;
     }

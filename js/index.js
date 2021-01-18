@@ -6,13 +6,16 @@ class Wave {
   partWidth = 0;
   startX = 0;
   ctxLineWidth = 0;
-  fftSize = 0;
+  fftSize = 256;
   analyser;
   ctx;
   canvas;
   draw;
 
-  constructor(canvas, itemCount = 45, minHeight = 0, spacePart = 0.2, fftSize = 256, paddingBottom = 0) {
+  get height() {return this.canvas.height;}
+  get width() {return this.canvas.width;}
+
+  constructor(canvas, itemCount = 45, minHeight = 0.04, spacePart = 0.2, fftSize = 256, paddingBottom = 0) {
     this.canvas = canvas;
     this.fftSize = fftSize;
     this.minHeight = minHeight;
@@ -23,11 +26,15 @@ class Wave {
     this.calculatingVariables();
   }
 
-  calculatingVariables() {
+  calculatingVariables(itemCount = this.itemCount, spacePart = this.spacePart, minHeight = this.minHeight) {
     this.getSize();
-    
+   
+    this.minHeight = minHeight; // New minHeight
+    this.itemCount = itemCount; // New itemCount
+   
+    // calculating
     this.partWidth = this.width / this.itemCount;
-    const part = this.partWidth * this.spacePart;
+    const part = this.partWidth * spacePart;
     const barWidth = this.partWidth / 2 - part;
     this.startX = barWidth / 2;
     
@@ -39,9 +46,6 @@ class Wave {
     this.canvas.width = this.canvas.clientWidth * window.devicePixelRatio;
     this.canvas.height = this.canvas.clientHeight * window.devicePixelRatio;
   }
-
-  get height() {return this.canvas.height;}
-  get width() {return this.canvas.width;}
 
 
   draw5(arrayHeightBars) {
@@ -113,7 +117,7 @@ document.getElementById('file').addEventListener('change', function(event){
 
   array = new Uint8Array(analyser.frequencyBinCount);
   
-
+  // Choose draw f-n
   wave.draw = chooseDrawFunction(canvas.getAttribute('name'), analyser);
 
 
@@ -142,6 +146,7 @@ function createRecursiveDrawFunction(analyser) {
 
 function normalizeAudioData (array) {
   const arrayHeightBars = [];
+
   // Create array height bars 
   for (let index = 0; index < wave.itemCount; index++) {
     const barHeight = array[index] / wave.fftSize + wave.minHeight;
@@ -151,25 +156,18 @@ function normalizeAudioData (array) {
   return [arrayHeightBars]
 }
 
-
+// Choose draw f-n and set settings
 function chooseDrawFunction(name, analyser) {
   switch (name) {
     case 'wave5':{
       analyser.fftSize = 256;
-      wave.itemCount = 45;
-      wave.minHeight = 0.05;
-      wave.spacePart = 0.2;
-      wave.calculatingVariables()
+      wave.calculatingVariables(45, 0.2);
       return wave.draw5;
     }
     case 'wave6': {
       analyser.fftSize = 2048;
-      analyser.minDecibels = -60;
-      analyser.maxDecibels = -10;
-      wave.itemCount = 93;
-      wave.minHeight = 0.05;
-      wave.spacePart = 0;
-      wave.calculatingVariables()
+      analyser.minDecibels = -65; 
+      wave.calculatingVariables(93, 0);
       return wave.draw6;
     }
     default:
