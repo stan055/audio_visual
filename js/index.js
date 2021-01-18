@@ -2,8 +2,8 @@ class Wave {
   paddingBottom = 0;
   itemCount = 0;
   minHeight = 0;
-  spacePart = 0;
-  partWidth = 0;
+  barWidth = 1;
+  widthInPercent = 1; // (0-1)%
   startX = 0;
   ctxLineWidth = 0;
   fftSize = 256;
@@ -16,31 +16,29 @@ class Wave {
   get height() {return this.canvas.height;}
   get width() {return this.canvas.width;}
 
-  constructor(canvas, itemCount = 45, minHeight = 0.03, spacePart = 0.2, fftSize = 256, paddingBottom = 0) {
+  constructor(canvas, itemCount = 45, minHeight = 0.03, widthInPercent = 0.5, fftSize = 256, paddingBottom = 0) {
     this.canvas = canvas;
     this.fftSize = fftSize;
     this.minHeight = minHeight;
-    this.spacePart = spacePart;
+    this.widthInPercent = widthInPercent;
     this.itemCount = itemCount;
     this.paddingBottom = paddingBottom;
 
     this.calculatingVariables();
   }
 
-  calculatingVariables(itemCount = this.itemCount, spacePart = this.spacePart, minHeight = this.minHeight) {
+  calculatingVariables(itemCount = this.itemCount, widthInPercent = this.widthInPercent, minHeight = this.minHeight) {
     this.getSize();
    
     this.minHeight = minHeight; // New minHeight
     this.itemCount = itemCount; // New itemCount
    
     // calculating
-    this.partWidth = this.width / this.itemCount;
-    const part = this.partWidth * spacePart;
-    const barWidth = this.partWidth / 2 - part;
-    this.startX = barWidth / 2;
+    this.barWidth = this.width / this.itemCount;
+    this.startX = this.barWidth * widthInPercent / 2;
     
     this.ctx = this.canvas.getContext('2d');
-    this.ctx.lineWidth = barWidth;
+    this.ctx.lineWidth = this.barWidth * widthInPercent;
   }
 
   getSize() {
@@ -56,7 +54,7 @@ class Wave {
       this.ctx.strokeStyle = `hsl(${arrayHeightBars[i] * this.height / (this.height*5) * 600}, 75%, 55%)`;
       this.ctx.beginPath();
 
-      const step = this.partWidth * i + this.startX;
+      const step = this.barWidth * i + this.startX;
       const heightBar = arrayHeightBars[i] * this.height;
 
       this.ctx.moveTo(step, this.height);
@@ -74,11 +72,27 @@ class Wave {
       this.ctx.strokeStyle = `hsl(284, 60%, 60%)`;
       this.ctx.beginPath();
 
-      const step = this.partWidth * i + this.startX;
+      const step = this.barWidth * i + this.startX;
       const heightBar = arrayHeightBars[i] * this.height * this.heightBarFactor;      
 
       this.ctx.moveTo(step, midCanvasY + heightBar / 2);
       this.ctx.lineTo(step, midCanvasY - heightBar + heightBar / 2);
+      this.ctx.stroke();
+    }
+  }
+
+  draw7(arrayHeightBars) {
+    this.ctx.clearRect(0, 0, this.width, this.height)
+
+    for (let i = 0; i < arrayHeightBars.length; i++) {
+      this.ctx.strokeStyle = `hsl(${arrayHeightBars[i] * this.height / (this.height*5) * 600}, 75%, 55%)`;
+      this.ctx.beginPath();
+
+      const step = this.barWidth * i + this.startX;
+      const heightBar = arrayHeightBars[i] * this.height * this.heightBarFactor;
+
+      this.ctx.moveTo(step, this.height);
+      this.ctx.lineTo(step, this.height - heightBar);
       this.ctx.stroke();
     }
   }
@@ -163,15 +177,23 @@ function chooseDrawFunction(name, analyser) {
   switch (name) {
     case 'wave5':{
       analyser.fftSize = 256;
-      wave.calculatingVariables(45, 0.2);
+      wave.calculatingVariables(45, 0.5);
       return wave.draw5;
     }
     case 'wave6': {
       analyser.fftSize = 2048;
       analyser.minDecibels = -60; 
       wave.heightBarFactor = 1.2; // heightBar = heinghtBar * heightBarFactor
-      wave.calculatingVariables(93, 0.1);
+      wave.calculatingVariables(93, 0.4);
       return wave.draw6;
+    }
+    case 'wave7':{
+      analyser.fftSize = 2048;
+      // analyser.minDecibels = -40; 
+      // analyser.maxDecibels = -60;
+      wave.calculatingVariables(wave.width, 1);
+      wave.heightBarFactor = 0.5;
+      return wave.draw7;
     }
     default:
       return null
