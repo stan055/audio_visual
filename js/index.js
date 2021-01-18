@@ -169,7 +169,7 @@ function chooseDrawFunction(name, analyser) {
     case 'wave6': {
       analyser.fftSize = 2048;
       analyser.minDecibels = -60; 
-      wave.heightBarFactor = 1.1;
+      wave.heightBarFactor = 1.1; // heightBar = heinghtBar * heightBarFactor
       wave.calculatingVariables(93, 0.1);
       return wave.draw6;
     }
