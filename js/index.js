@@ -7,6 +7,7 @@ class Wave {
   startX = 0;
   ctxLineWidth = 0;
   fftSize = 256;
+  heightBarFactor = 1.0;
   analyser;
   ctx;
   canvas;
@@ -74,7 +75,7 @@ class Wave {
       this.ctx.beginPath();
 
       const step = this.partWidth * i + this.startX;
-      const heightBar = arrayHeightBars[i] * this.height;
+      const heightBar = arrayHeightBars[i] * this.height * this.heightBarFactor;      
 
       this.ctx.moveTo(step, midCanvasY + heightBar / 2);
       this.ctx.lineTo(step, midCanvasY - heightBar + heightBar / 2);
@@ -168,6 +169,7 @@ function chooseDrawFunction(name, analyser) {
     case 'wave6': {
       analyser.fftSize = 2048;
       analyser.minDecibels = -60; 
+      wave.heightBarFactor = 1.1;
       wave.calculatingVariables(93, 0.1);
       return wave.draw6;
     }
