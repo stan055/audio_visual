@@ -15,7 +15,7 @@ class Wave {
   get height() {return this.canvas.height;}
   get width() {return this.canvas.width;}
 
-  constructor(canvas, itemCount = 45, minHeight = 0.04, spacePart = 0.2, fftSize = 256, paddingBottom = 0) {
+  constructor(canvas, itemCount = 45, minHeight = 0.03, spacePart = 0.2, fftSize = 256, paddingBottom = 0) {
     this.canvas = canvas;
     this.fftSize = fftSize;
     this.minHeight = minHeight;
@@ -68,7 +68,7 @@ class Wave {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
     for (let i = 0; i < arrayHeightBars.length; i++) {
-      this.ctx.strokeStyle = `hsl(${arrayHeightBars[i] * this.height / (this.height*5) * 600}, 75%, 55%)`;
+      this.ctx.strokeStyle = `hsl(284, 60%, 60%)`;
       this.ctx.beginPath();
 
       const step = this.partWidth * i + this.startX;
@@ -167,7 +167,7 @@ function chooseDrawFunction(name, analyser) {
     case 'wave6': {
       analyser.fftSize = 2048;
       analyser.minDecibels = -65; 
-      wave.calculatingVariables(93, 0);
+      wave.calculatingVariables(93, 0.1);
       return wave.draw6;
     }
     default:
