@@ -8,6 +8,7 @@ class Wave {
   ctxLineWidth = 0;
   fftSize = 256;
   heightBarFactor = 1.0;
+  tension = 0.7;
   analyser;
   ctx;
   canvas;
@@ -70,7 +71,7 @@ class Wave {
     const midCanvasY = this.height / 2;
 
     for (let i = 0; i < arrayHeightBars.length; i++) {
-      this.ctx.strokeStyle = `hsl(284, 60%, 60%)`;
+      this.ctx.strokeStyle = 'hsl(284, 60%, 60%)';
       this.ctx.beginPath();
 
       const step = this.barWidth * i + this.startX;
@@ -85,18 +86,70 @@ class Wave {
   // Draw wave #7
   draw7(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
+    this.ctx.strokeStyle = 'hsl(200, 50%, 50%)'
 
-    for (let i = 0; i < arrayHeightBars.length; i++) {
-      this.ctx.strokeStyle = `hsl(${arrayHeightBars[i] * this.height / (this.height*5) * 600}, 75%, 55%)`;
+    let pts=[]; // a list of x and ys
+
+    const addSplinePoint = (x, y) => {
+      pts.push(x); pts.push(this.height - y);
+    }
+
+    const createSplinePoints = () => {
+      // Create points addSplinePoint(x, y)
+      for (let i = 0; i < this.width; i += 25) {
+        addSplinePoint(i, arrayHeightBars[i] * this.height);
+      }
+    }
+    
+    const va = (arr, i, j) => {
+      return [arr[0][2*j]-arr[0][2*i], arr[0][2*j+1]-arr[0][2*i+1]]
+    }
+
+    const ctlpts = (x1,y1,x2,y2,x3,y3) => {
+      var t = this.tension;
+      var v = va(arguments, 0, 2);
+      var d01 = dista(arguments, 0, 1);
+      var d12 = dista(arguments, 1, 2);
+      var d012 = d01 + d12;
+      return [x2 - v[0] * t * d01 / d012, y2 - v[1] * t * d01 / d012,
+              x2 + v[0] * t * d12 / d012, y2 + v[1] * t * d12 / d012 ];
+    }
+
+
+    const drawCurvedPath = (cps, pts) => {
+      var len = pts.length / 2; // number of points    
       this.ctx.beginPath();
-
-      const step = this.barWidth * i + this.startX;
-      const heightBar = arrayHeightBars[i] * this.height * this.heightBarFactor;
-
-      this.ctx.moveTo(step, this.height);
-      this.ctx.lineTo(step, this.height - heightBar);
+      this.ctx.moveTo(pts[0], pts[1]);
+      // from point 0 to point 1 is a quadratic
+      this.ctx.quadraticCurveTo(cps[0], cps[1], pts[2], pts[3]);
+      // for all middle points, connect with bezier
+      for (var i = 2; i < len-1; i += 1) {
+        this.ctx.bezierCurveTo(cps[(2*(i-1)-1)*2], cps[(2*(i-1)-1)*2+1],
+                          cps[(2*(i-1))*2], cps[(2*(i-1))*2+1],
+                          pts[i*2], pts[i*2+1]);
+      }
+      this.ctx.quadraticCurveTo(cps[(2*(i-1)-1)*2], cps[(2*(i-1)-1)*2+1],
+                           pts[i*2], pts[i*2+1]);
       this.ctx.stroke();
     }
+
+    createSplinePoints();
+    drawSplines();    
+
+    function dista(arr, i, j) {
+      return Math.sqrt(Math.pow(arr[0][2*i]-arr[0][2*j], 2) + Math.pow(arr[0][2*i+1]-arr[0][2*j+1], 2));
+    }
+
+    function drawSplines() {
+      let cps = []; // There will be two control points for each "middle" point, 1 ... len-2e
+      for (var i = 0; i < pts.length - 2; i += 1) {
+        cps = cps.concat(ctlpts(pts[2*i], pts[2*i+1], pts[2*i+2], pts[2*i+3], pts[2*i+4], pts[2*i+5]));
+      }
+        drawCurvedPath(cps, pts);
+    }
+
+
+
   }
 
 
@@ -177,7 +230,7 @@ function normalizeAudioData (array) {
 // Choose draw f-n and set settings
 function chooseDrawFunction(name, analyser) {
   switch (name) {
-    case 'wave5':{
+    case 'wave5': {
       analyser.fftSize = 256;
       wave.calculatingVariables(45, 0.5);
       return wave.draw5;
@@ -189,15 +242,14 @@ function chooseDrawFunction(name, analyser) {
       wave.calculatingVariables(93, 0.4);
       return wave.draw6;
     }
-    case 'wave7':{
+    case 'wave7': {
       analyser.fftSize = 2048;
-      // analyser.minDecibels = -40; 
-      // analyser.maxDecibels = -60;
+      analyser.minDecibels = -80; 
+      analyser.maxDecibels = -10;
       wave.calculatingVariables(wave.width, 1);
-      wave.heightBarFactor = 0.5;
       return wave.draw7;
     }
     default:
-      return null
+      return null;
   }
 }
