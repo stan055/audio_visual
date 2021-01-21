@@ -159,8 +159,8 @@ class Wave {
 
     const pts1 = createSplinePoints(1);
     const pts2 = createSplinePoints(.8);
-    const pts3 = createSplinePoints(1.35);
-    const pts4 = createSplinePoints(1.7);
+    const pts3 = createSplinePoints(1.25);
+    const pts4 = createSplinePoints(1.65);
 
     this.ctx.globalAlpha = 0.3;
     this.ctx.strokeStyle = 'hsl(10, 80%, 30%)'
@@ -271,9 +271,8 @@ function chooseDrawFunction(name, analyser) {
       return wave.draw6;
     }
     case 'wave7': {
-      analyser.fftSize = 2048;
-      // analyser.minDecibels = -80; 
-      analyser.maxDecibels = 5;
+      analyser.fftSize = 2048*4;
+      analyser.maxDecibels = 0;
       wave.waveWidth = 0.08;
       wave.calculatingVariables(wave.width*2, 0.04, 1);
       return wave.draw7;
