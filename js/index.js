@@ -8,7 +8,7 @@ class Wave {
   ctxLineWidth = 0;
   fftSize = 256;
   heightBarFactor = 1.0;
-  tension = 0.7;
+  tension = 0.5;
   analyser;
   ctx;
   canvas;
@@ -102,14 +102,14 @@ class Wave {
     }
     
     const va = (arr, i, j) => {
-      return [arr[0][2*j]-arr[0][2*i], arr[0][2*j+1]-arr[0][2*i+1]]
+      return [arr[2*j]-arr[2*i], arr[2*j+1]-arr[2*i+1]]
     }
 
     const ctlpts = (x1,y1,x2,y2,x3,y3) => {
       var t = this.tension;
-      var v = va(arguments, 0, 2);
-      var d01 = dista(arguments, 0, 1);
-      var d12 = dista(arguments, 1, 2);
+      var v = va([x1,y1,x2,y2,x3,y3], 0, 2);
+      var d01 = dista([x1,y1,x2,y2,x3,y3], 0, 1);
+      var d12 = dista([x1,y1,x2,y2,x3,y3], 1, 2);
       var d012 = d01 + d12;
       return [x2 - v[0] * t * d01 / d012, y2 - v[1] * t * d01 / d012,
               x2 + v[0] * t * d12 / d012, y2 + v[1] * t * d12 / d012 ];
@@ -118,6 +118,7 @@ class Wave {
 
     const drawCurvedPath = (cps, pts) => {
       var len = pts.length / 2; // number of points    
+
       this.ctx.beginPath();
       this.ctx.moveTo(pts[0], pts[1]);
       // from point 0 to point 1 is a quadratic
@@ -137,7 +138,7 @@ class Wave {
     drawSplines();    
 
     function dista(arr, i, j) {
-      return Math.sqrt(Math.pow(arr[0][2*i]-arr[0][2*j], 2) + Math.pow(arr[0][2*i+1]-arr[0][2*j+1], 2));
+      return Math.sqrt(Math.pow(arr[2*i]-arr[2*j], 2) + Math.pow(arr[2*i+1]-arr[2*j+1], 2));
     }
 
     function drawSplines() {
@@ -147,9 +148,6 @@ class Wave {
       }
         drawCurvedPath(cps, pts);
     }
-
-
-
   }
 
 
