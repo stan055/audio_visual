@@ -88,18 +88,15 @@ class Wave {
   draw7(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
-    let pts=[]; // a list of x and ys
-
-    const addSplinePoint = (x, y) => {
-      pts.push(x); pts.push(this.height - y);
-    }
-
-    const createSplinePoints = () => {
+    const createSplinePoints = (heightFactor) => {
       // Create points addSplinePoint(x, y)
+      const pts = [];
       const step = Math.floor(this.width * this.waveWidth); // Step should be an integer
       for (let i = 0; i <= this.width+step; i += step) {
-        addSplinePoint(i, arrayHeightBars[i] * this.height + this.minHeight);
+        const y = arrayHeightBars[i] * this.height  * heightFactor + this.minHeight;
+        pts.push(i); pts.push(this.height - y);
       }
+      return pts;
     }
     
     const va = (arr, i, j) => {
@@ -150,37 +147,37 @@ class Wave {
     }
 
 
-    const drawSplines = () => {
+    const drawSplines = (pts) => {
       let cps = []; // There will be two control points for each "middle" point, 1 ... len-2e
       for (var i = 0; i < pts.length - 2; i += 1) {
         cps = cps.concat(ctlpts(pts[2*i], pts[2*i+1], pts[2*i+2], pts[2*i+3], pts[2*i+4], pts[2*i+5]));
       }
-        this.ctx.globalAlpha = 0.3;
-        this.ctx.strokeStyle = 'hsl(15, 70%, 70%)'
-        this.ctx.fillStyle = this.ctx.strokeStyle;
-        const cps1 = cps.map(e => e-15);
-        const pts1 = pts.map(e => e-15);
-        drawCurvedPath(cps1, pts1);
-
-        this.ctx.globalAlpha = 0.5;
-        this.ctx.strokeStyle = 'hsl(25, 100%, 50%)'
-        this.ctx.fillStyle = this.ctx.strokeStyle;
-        const cps2 = cps.map(e => e-7);
-        const pts2 = pts.map(e => e-7);
-        drawCurvedPath(cps2, pts2);
-
-        this.ctx.globalAlpha = 0.7;
-        this.ctx.strokeStyle = 'hsl(35, 60%, 60%)'
         this.ctx.fillStyle = this.ctx.strokeStyle;
         drawCurvedPath(cps, pts);
     }
 
 
-    createSplinePoints();
-    drawSplines();    
+    const pts1 = createSplinePoints(1);
+    const pts2 = createSplinePoints(.8);
+    const pts3 = createSplinePoints(1.35);
+    const pts4 = createSplinePoints(1.7);
 
+    this.ctx.globalAlpha = 0.3;
+    this.ctx.strokeStyle = 'hsl(10, 80%, 30%)'
+    drawSplines(pts4);
 
+    this.ctx.globalAlpha = 0.4;
+    this.ctx.strokeStyle = 'hsl(10, 80%, 50%)'
+    drawSplines(pts3);    
 
+    this.ctx.globalAlpha = 0.5;
+    this.ctx.strokeStyle = 'hsl(15, 80%, 50%)'
+    drawSplines(pts2);    
+
+    this.ctx.globalAlpha = 0.5;
+    this.ctx.strokeStyle = 'hsl(35, 70%, 75%)'
+    drawSplines(pts1);    
+    
   }
 
 
@@ -276,7 +273,8 @@ function chooseDrawFunction(name, analyser) {
     case 'wave7': {
       analyser.fftSize = 2048;
       // analyser.minDecibels = -80; 
-      // analyser.maxDecibels = -10;
+      analyser.maxDecibels = 5;
+      wave.waveWidth = 0.08;
       wave.calculatingVariables(wave.width*2, 0.04, 1);
       return wave.draw7;
     }
