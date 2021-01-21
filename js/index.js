@@ -9,7 +9,7 @@ class Wave {
   ctxLineWidth = 0;
   fftSize = 256;
   heightBarFactor = 1.0;
-  tension = 0.5;
+  tension = 0.4;
   analyser;
   ctx;
   canvas;
@@ -273,7 +273,7 @@ function chooseDrawFunction(name, analyser) {
     case 'wave7': {
       analyser.fftSize = 2048*4;
       analyser.maxDecibels = 0;
-      wave.waveWidth = 0.08;
+      wave.waveWidth = 0.085;
       wave.calculatingVariables(wave.width*2, 0.04, 1);
       return wave.draw7;
     }
