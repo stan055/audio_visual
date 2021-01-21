@@ -85,7 +85,7 @@ class Wave {
   }
 
   // Draw wave #7
-  draw7(arrayHeightBars) {
+  draw2(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
     const createSplinePoints = (heightFactor) => {
@@ -159,8 +159,8 @@ class Wave {
 
     const pts1 = createSplinePoints(1);
     const pts2 = createSplinePoints(.8);
-    const pts3 = createSplinePoints(1.25);
-    const pts4 = createSplinePoints(1.65);
+    const pts3 = createSplinePoints(1.2);
+    const pts4 = createSplinePoints(1.6);
 
     this.ctx.globalAlpha = 0.3;
     this.ctx.strokeStyle = 'hsl(10, 80%, 30%)'
@@ -246,6 +246,8 @@ function createRecursiveDrawFunction(analyser) {
 function normalizeAudioData (array) {
   const arrayHeightBars = [];
 
+  array = filteredDateWave2(array);
+
   // Create array height bars 
   for (let index = 0; index < wave.itemCount; index++) {
     const barHeight = array[index] / wave.fftSize;
@@ -270,14 +272,22 @@ function chooseDrawFunction(name, analyser) {
       wave.calculatingVariables(93, 0.03, 0.4);
       return wave.draw6;
     }
-    case 'wave7': {
+    case 'wave2': {
       analyser.fftSize = 2048*4;
       analyser.maxDecibels = 0;
       wave.waveWidth = 0.085;
       wave.calculatingVariables(wave.width*2, 0.04, 1);
-      return wave.draw7;
+      return wave.draw2;
     }
     default:
       return null;
   }
+}
+
+// Decrease basses
+function filteredDateWave2(audioBufer) {
+  for (let i = 0; i < 150; i++) {
+    audioBufer[i] = audioBufer[i] * 0.9;
+  }
+  return audioBufer;
 }
