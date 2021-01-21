@@ -4,6 +4,7 @@ class Wave {
   minHeight = 0;
   barWidth = 1;
   widthInPercent = 1; // (0-1)%
+  waveWidth = 0.09;
   startX = 0;
   ctxLineWidth = 0;
   fftSize = 256;
@@ -20,7 +21,7 @@ class Wave {
   constructor(canvas, itemCount = 45, minHeight = 0.03, widthInPercent = 0.5, fftSize = 256, paddingBottom = 0) {
     this.canvas = canvas;
     this.fftSize = fftSize;
-    this.minHeight = minHeight;
+    this.minHeight = this.height * minHeight;
     this.widthInPercent = widthInPercent;
     this.itemCount = itemCount;
     this.paddingBottom = paddingBottom;
@@ -28,10 +29,10 @@ class Wave {
     this.calculatingVariables();
   }
 
-  calculatingVariables(itemCount = this.itemCount, widthInPercent = this.widthInPercent, minHeight = this.minHeight) {
+  calculatingVariables(itemCount = this.itemCount, minHeight = 0, widthInPercent = this.widthInPercent ) {
     this.getSize();
    
-    this.minHeight = minHeight; // New minHeight
+    this.minHeight = this.height * minHeight; // New minHeight
     this.itemCount = itemCount; // New itemCount
    
     // calculating
@@ -56,7 +57,7 @@ class Wave {
       this.ctx.beginPath();
 
       const step = this.barWidth * i + this.startX;
-      const heightBar = arrayHeightBars[i] * this.height;
+      const heightBar = arrayHeightBars[i] * this.height + this.minHeight;
 
       this.ctx.moveTo(step, this.height);
       this.ctx.lineTo(step, this.height - heightBar);
@@ -75,7 +76,7 @@ class Wave {
       this.ctx.beginPath();
 
       const step = this.barWidth * i + this.startX;
-      const heightBar = arrayHeightBars[i] * this.height * this.heightBarFactor;      
+      const heightBar = arrayHeightBars[i] * this.height * this.heightBarFactor + this.minHeight;      
 
       this.ctx.moveTo(step, midCanvasY + heightBar / 2);
       this.ctx.lineTo(step, midCanvasY - heightBar + heightBar / 2);
@@ -86,7 +87,6 @@ class Wave {
   // Draw wave #7
   draw7(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
-    this.ctx.strokeStyle = 'hsl(200, 50%, 50%)'
 
     let pts=[]; // a list of x and ys
 
@@ -96,14 +96,21 @@ class Wave {
 
     const createSplinePoints = () => {
       // Create points addSplinePoint(x, y)
-      for (let i = 0; i < this.width; i += 25) {
-        addSplinePoint(i, arrayHeightBars[i] * this.height);
+      const step = Math.floor(this.width * this.waveWidth); // Step should be an integer
+      for (let i = 0; i <= this.width+step; i += step) {
+        addSplinePoint(i, arrayHeightBars[i] * this.height + this.minHeight);
       }
     }
     
     const va = (arr, i, j) => {
       return [arr[2*j]-arr[2*i], arr[2*j+1]-arr[2*i+1]]
     }
+
+
+    function dista(arr, i, j) {
+      return Math.sqrt(Math.pow(arr[2*i]-arr[2*j], 2) + Math.pow(arr[2*i+1]-arr[2*j+1], 2));
+    }
+
 
     const ctlpts = (x1,y1,x2,y2,x3,y3) => {
       var t = this.tension;
@@ -131,23 +138,49 @@ class Wave {
       }
       this.ctx.quadraticCurveTo(cps[(2*(i-1)-1)*2], cps[(2*(i-1)-1)*2+1],
                            pts[i*2], pts[i*2+1]);
+
+      // Closure
+      this.ctx.lineTo(this.width, this.height);
+      this.ctx.lineTo(0, this.height);
+
+      // this.ctx.closePath();
+
       this.ctx.stroke();
+      this.ctx.fill();
     }
 
-    createSplinePoints();
-    drawSplines();    
 
-    function dista(arr, i, j) {
-      return Math.sqrt(Math.pow(arr[2*i]-arr[2*j], 2) + Math.pow(arr[2*i+1]-arr[2*j+1], 2));
-    }
-
-    function drawSplines() {
+    const drawSplines = () => {
       let cps = []; // There will be two control points for each "middle" point, 1 ... len-2e
       for (var i = 0; i < pts.length - 2; i += 1) {
         cps = cps.concat(ctlpts(pts[2*i], pts[2*i+1], pts[2*i+2], pts[2*i+3], pts[2*i+4], pts[2*i+5]));
       }
+        this.ctx.globalAlpha = 0.3;
+        this.ctx.strokeStyle = 'hsl(15, 70%, 70%)'
+        this.ctx.fillStyle = this.ctx.strokeStyle;
+        const cps1 = cps.map(e => e-15);
+        const pts1 = pts.map(e => e-15);
+        drawCurvedPath(cps1, pts1);
+
+        this.ctx.globalAlpha = 0.5;
+        this.ctx.strokeStyle = 'hsl(25, 100%, 50%)'
+        this.ctx.fillStyle = this.ctx.strokeStyle;
+        const cps2 = cps.map(e => e-7);
+        const pts2 = pts.map(e => e-7);
+        drawCurvedPath(cps2, pts2);
+
+        this.ctx.globalAlpha = 0.7;
+        this.ctx.strokeStyle = 'hsl(35, 60%, 60%)'
+        this.ctx.fillStyle = this.ctx.strokeStyle;
         drawCurvedPath(cps, pts);
     }
+
+
+    createSplinePoints();
+    drawSplines();    
+
+
+
   }
 
 
@@ -218,7 +251,7 @@ function normalizeAudioData (array) {
 
   // Create array height bars 
   for (let index = 0; index < wave.itemCount; index++) {
-    const barHeight = array[index] / wave.fftSize + wave.minHeight;
+    const barHeight = array[index] / wave.fftSize;
 
     arrayHeightBars.push(barHeight);
   }
@@ -230,21 +263,21 @@ function chooseDrawFunction(name, analyser) {
   switch (name) {
     case 'wave5': {
       analyser.fftSize = 256;
-      wave.calculatingVariables(45, 0.5);
+      wave.calculatingVariables(45, 0.03, 0.5);
       return wave.draw5;
     }
     case 'wave6': {
       analyser.fftSize = 2048;
       analyser.minDecibels = -60; 
       wave.heightBarFactor = 1.2; // heightBar = heinghtBar * heightBarFactor
-      wave.calculatingVariables(93, 0.4);
+      wave.calculatingVariables(93, 0.03, 0.4);
       return wave.draw6;
     }
     case 'wave7': {
       analyser.fftSize = 2048;
-      analyser.minDecibels = -80; 
-      analyser.maxDecibels = -10;
-      wave.calculatingVariables(wave.width, 1);
+      // analyser.minDecibels = -80; 
+      // analyser.maxDecibels = -10;
+      wave.calculatingVariables(wave.width*2, 0.04, 1);
       return wave.draw7;
     }
     default:
