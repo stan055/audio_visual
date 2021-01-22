@@ -76,6 +76,7 @@ main .wave5 {
   height: 100px;
   z-index: -1;
   pointer-events: none;
+  border: 1px solid grey;
 }
 main .wave6 {
   position: absolute;
@@ -85,6 +86,7 @@ main .wave6 {
   height: 120px;
   z-index: -1;
   pointer-events: none;
+  border: 1px solid grey;
 }
 main .wave2 {
   position: absolute;
@@ -94,6 +96,7 @@ main .wave2 {
   height: 100px;
   z-index: -1;
   pointer-events: none;
+  border: 1px solid grey;
 }
 main .wave7 {
   position: absolute;
@@ -103,6 +106,7 @@ main .wave7 {
   height: 100px;
   z-index: -1;
   pointer-events: none;
+  border: 1px solid grey;
 }
 
 /*# sourceMappingURL=style.css.map */
