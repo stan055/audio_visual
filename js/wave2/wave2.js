@@ -1,17 +1,12 @@
 class Wave2 {
-    paddingBottom = 0;
-    itemCount = 0;
+    itemCount;
     minHeight = 0;
     barWidth = 1;
     widthInPercent = 0.5; // (0-1)
     bassFactor = 1;
     bassCount = 150;
     waveWidth = 0.09;
-    startX = 0;
-    ctxLineWidth = 0;
-    heightBarFactor = 1.0;
     tension = 0.4;
-    analyser;
     ctx;
     canvas;
     styles = [[0.3, 'hsl(10, 80%, 30%)'], [0.4, 'hsl(10, 80%, 50%)'],  [0.5, 'hsl(15, 80%, 50%)'], [0.5, 'hsl(35, 70%, 75%)']];
@@ -24,14 +19,12 @@ class Wave2 {
         itemCount = 45, 
         minHeight = 0.03, 
         widthInPercent = 0.5, 
-        paddingBottom = 0
       ) {
         
       this.canvas = canvas;
       this.minHeight = this.height * minHeight;
       this.widthInPercent = widthInPercent;
       this.itemCount = itemCount;
-      this.paddingBottom = paddingBottom;
   
       this.calculatingVariables();
     }
@@ -44,7 +37,6 @@ class Wave2 {
      
       // calculating
       this.barWidth = this.width / this.itemCount;
-      this.startX = this.barWidth * widthInPercent / 2;
       
       this.ctx = this.canvas.getContext('2d');
       this.ctx.lineWidth = this.barWidth * widthInPercent;

@@ -1,17 +1,11 @@
 class Wave5 {
-    paddingBottom = 0;
     itemCount = 0;
     minHeight = 0;
     barWidth = 1;
     widthInPercent = 0.5; // (0-1)
     bassFactor = 1;
     bassCount = 150;
-    waveWidth = 0.09;
     startX = 0;
-    ctxLineWidth = 0;
-    heightBarFactor = 1.0;
-    tension = 0.4;
-    analyser;
     ctx;
     canvas;
     styles = [[1, 'hsl(150, 100%, 78%)']];
@@ -22,14 +16,12 @@ class Wave5 {
             itemCount = 45, 
             minHeight = 0.03, 
             widthInPercent = 0.5, 
-            paddingBottom = 0
         ) {
 
         this.canvas = canvas;
         this.minHeight = this.height * minHeight;
         this.widthInPercent = widthInPercent;
         this.itemCount = itemCount;
-        this.paddingBottom = paddingBottom;
     
         this.calculatingVariables();
     }
