@@ -3,7 +3,7 @@ class Wave {
   itemCount = 0;
   minHeight = 0;
   barWidth = 1;
-  widthInPercent = 1; // (0-1)%
+  widthInPercent = 1; // (0-1)
   waveWidth = 0.09;
   startX = 0;
   ctxLineWidth = 0;
@@ -88,17 +88,41 @@ class Wave {
   draw2(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
-    const createSplinePoints = (heightFactor) => {
+    const createSplinePoints = (hFactor1, hFactor2, hFactor3, hFactor4) => {
       // Create points addSplinePoint(x, y)
-      const pts = [];
+      const pts1 = [];
+      const pts2 = [];
+      const pts3 = [];
+      const pts4 = [];
+      
       const step = Math.floor(this.width * this.waveWidth); // Step should be an integer
+      
       for (let i = 0; i <= this.width+step; i += step) {
-        const y = arrayHeightBars[i] * this.height  * heightFactor + this.minHeight;
-        pts.push(i); pts.push(this.height - y);
+        const height = arrayHeightBars[i] * this.height;
+
+        const y1 = height  * hFactor1 + this.minHeight;
+        const y2 = height  * hFactor2 + this.minHeight;
+        const y3 = height  * hFactor3 + this.minHeight;
+        const y4 = height  * hFactor4 + this.minHeight;
+        
+        pts1.push(i); pts1.push(this.height - y1);
+        pts2.push(i); pts2.push(this.height - y2);
+        pts3.push(i); pts3.push(this.height - y3);
+        pts4.push(i); pts4.push(this.height - y4);
       }
-      return pts;
+      return [pts1, pts2, pts3, pts4];
     }
+
     
+    // Lower Bass
+    const lowerBass = (arrayHeightBars, counter, factor) => {
+      for (let i = 0; i < counter; i++) {
+        arrayHeightBars[i] = arrayHeightBars[i] * factor;
+      }
+      return arrayHeightBars;
+    }
+
+
     const va = (arr, i, j) => {
       return [arr[2*j]-arr[2*i], arr[2*j+1]-arr[2*i+1]]
     }
@@ -156,11 +180,9 @@ class Wave {
         drawCurvedPath(cps, pts);
     }
 
+    arrayHeightBars = lowerBass(arrayHeightBars, 150, 0.8);
 
-    const pts1 = createSplinePoints(1);
-    const pts2 = createSplinePoints(.8);
-    const pts3 = createSplinePoints(1.2);
-    const pts4 = createSplinePoints(1.6);
+    const [pts1, pts2, pts3, pts4] = createSplinePoints(1, .8, 1.2, 1.57); 
 
     this.ctx.globalAlpha = 0.3;
     this.ctx.strokeStyle = 'hsl(10, 80%, 30%)'
@@ -246,8 +268,6 @@ function createRecursiveDrawFunction(analyser) {
 function normalizeAudioData (array) {
   const arrayHeightBars = [];
 
-  array = filteredDateWave2(array);
-
   // Create array height bars 
   for (let index = 0; index < wave.itemCount; index++) {
     const barHeight = array[index] / wave.fftSize;
@@ -274,6 +294,7 @@ function chooseDrawFunction(name, analyser) {
     }
     case 'wave2': {
       analyser.fftSize = 2048*4;
+      analyser.minDecibels = -95; 
       analyser.maxDecibels = 0;
       wave.waveWidth = 0.085;
       wave.calculatingVariables(wave.width*2, 0.04, 1);
@@ -284,10 +305,3 @@ function chooseDrawFunction(name, analyser) {
   }
 }
 
-// Decrease basses
-function filteredDateWave2(audioBufer) {
-  for (let i = 0; i < 150; i++) {
-    audioBufer[i] = audioBufer[i] * 0.9;
-  }
-  return audioBufer;
-}
