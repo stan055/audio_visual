@@ -32,9 +32,6 @@ document.getElementById('file').addEventListener('change', function(event){
   
     analyser.fftSize = 2048*4;
     analyser.minDecibels = -80; 
-    wave.waveWidth = 0.085;
-    wave.bassFactor = 0.7;
-    wave.calculatingVariables(0.04);
     
     const recursiveDrawAudio = createRecursiveDrawFunction(analyser);
     

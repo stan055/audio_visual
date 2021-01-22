@@ -1,8 +1,8 @@
 class Wave7 {
-    minHeight = 0;
-    bassFactor = 1;
+    minHeight = 0.04;
+    bassFactor = 0.7;
     bassCount = 150;
-    waveWidth = 0.09;
+    waveWidth = 0.085;
     tension = 0.4;
     ctx;
     canvas;
@@ -15,7 +15,7 @@ class Wave7 {
 
     constructor(
         canvas, 
-        minHeight = 0.03, 
+        minHeight = 0.04, 
       ) {
 
       this.canvas = canvas;
@@ -25,12 +25,10 @@ class Wave7 {
     }
   
 
-    calculatingVariables(minHeight = 0) {
+    calculatingVariables(minHeight = 0.04) {
       this.getSize();
      
       this.minHeight = this.height * minHeight; // New minHeight
-     
-      // calculating
       
       this.ctx = this.canvas.getContext('2d');
     }

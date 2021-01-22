@@ -1,12 +1,12 @@
 class Wave6 {
-    itemCount = 0;
-    minHeight = 0;
+    itemCount = 93;
+    minHeight = 0.03;
     barWidth = 1;
-    widthInPercent = 0.5; // (0-1)
+    widthInPercent = 0.4; // (0-1)
     bassFactor = 1;
     bassCount = 150;
     startX = 0;
-    heightBarFactor = 1.0;
+    heightBarFactor = 1.1;
     ctx;
     canvas;
     styles = [[1, 'hsl(250, 90%, 77%)']]; 
@@ -20,11 +20,11 @@ class Wave6 {
         canvas, 
         itemCount = 93, 
         minHeight = 0.03, 
-        widthInPercent = 0.5, 
+        widthInPercent = 0.4, 
       ) {
 
       this.canvas = canvas;
-      this.minHeight = this.height * minHeight;
+      this.minHeight = minHeight;
       this.widthInPercent = widthInPercent;
       this.itemCount = itemCount;
   
@@ -36,8 +36,13 @@ class Wave6 {
         this.canvas.height = this.canvas.clientHeight * window.devicePixelRatio;
     }
     
-    calculatingVariables(itemCount = this.itemCount, minHeight = 0, widthInPercent = this.widthInPercent ) {
-      this.getSize();
+    calculatingVariables(
+        itemCount = this.itemCount, 
+        minHeight = this.minHeight, 
+        widthInPercent = this.widthInPercent 
+      ) {
+      
+        this.getSize();
      
       this.minHeight = this.height * minHeight; // New minHeight
       this.itemCount = itemCount; // New itemCount

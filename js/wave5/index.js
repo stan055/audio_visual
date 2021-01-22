@@ -30,8 +30,7 @@ document.getElementById('file').addEventListener('change', function(event){
   
     array = new Uint8Array(analyser.frequencyBinCount);
   
-    analyser.fftSize = 256;
-    wave.calculatingVariables(45, 0.03, 0.5);
+    analyser.fftSize = 512;
     
     const recursiveDrawAudio = createRecursiveDrawFunction(analyser);
     

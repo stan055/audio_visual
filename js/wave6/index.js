@@ -30,10 +30,7 @@ document.getElementById('file').addEventListener('change', function(event){
   
     array = new Uint8Array(analyser.frequencyBinCount);
   
-    analyser.fftSize = 2048;
     analyser.minDecibels = -60; 
-    wave.heightBarFactor = 1.2; // heightBar = heinghtBar * heightBarFactor
-    wave.calculatingVariables(93, 0.03, 0.4);
     
     const recursiveDrawAudio = createRecursiveDrawFunction(analyser);
     
