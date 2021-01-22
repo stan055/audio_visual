@@ -100,6 +100,16 @@ body {
       z-index: -1;
       pointer-events: none;
     }
+
+    .wave7 {
+      position: absolute;
+      display: flex;
+      top: 40vh;
+      width: 450px;
+      height: 100px;
+      z-index: -1;
+      pointer-events: none;
+    }
   }
 
 

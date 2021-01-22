@@ -3,7 +3,9 @@ class Wave {
   itemCount = 0;
   minHeight = 0;
   barWidth = 1;
-  widthInPercent = 1; // (0-1)
+  widthInPercent = 0.5; // (0-1)
+  bassFactor = 1;
+  bassCount = 150;
   waveWidth = 0.09;
   startX = 0;
   ctxLineWidth = 0;
@@ -48,6 +50,124 @@ class Wave {
     this.canvas.height = this.canvas.clientHeight * window.devicePixelRatio;
   }
 
+  // Lower Bass
+  lowerBass(arrayHeightBars, count, factor) {
+    for (let i = 0; i < count; i++) {
+      arrayHeightBars[i] = arrayHeightBars[i] * factor;
+    }
+    return arrayHeightBars;
+  }
+
+
+  va(arr, i, j) {
+    return [arr[2*j]-arr[2*i], arr[2*j+1]-arr[2*i+1]]
+  }
+
+
+  dista(arr, i, j) {
+    return Math.sqrt(Math.pow(arr[2*i]-arr[2*j], 2) + Math.pow(arr[2*i+1]-arr[2*j+1], 2));
+  }
+
+
+  ctlpts(x1,y1,x2,y2,x3,y3) {
+    var t = this.tension;
+    var v = this.va([x1,y1,x2,y2,x3,y3], 0, 2);
+    var d01 = this.dista([x1,y1,x2,y2,x3,y3], 0, 1);
+    var d12 = this.dista([x1,y1,x2,y2,x3,y3], 1, 2);
+    var d012 = d01 + d12;
+    return [x2 - v[0] * t * d01 / d012, y2 - v[1] * t * d01 / d012,
+            x2 + v[0] * t * d12 / d012, y2 + v[1] * t * d12 / d012 ];
+  }
+
+
+  drawCurvedPath(cps, pts) {
+    var len = pts.length / 2; // number of points    
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(pts[0], pts[1]);
+    // from point 0 to point 1 is a quadratic
+    this.ctx.quadraticCurveTo(cps[0], cps[1], pts[2], pts[3]);
+    // for all middle points, connect with bezier
+    for (var i = 2; i < len-1; i += 1) {
+      this.ctx.bezierCurveTo(cps[(2*(i-1)-1)*2], cps[(2*(i-1)-1)*2+1],
+                        cps[(2*(i-1))*2], cps[(2*(i-1))*2+1],
+                        pts[i*2], pts[i*2+1]);
+    }
+    this.ctx.quadraticCurveTo(cps[(2*(i-1)-1)*2], cps[(2*(i-1)-1)*2+1],
+                         pts[i*2], pts[i*2+1]);
+
+    // Closure
+    this.ctx.lineTo(this.width, this.height);
+    this.ctx.lineTo(0, this.height);
+
+    this.ctx.stroke();
+    this.ctx.fill();
+  }
+
+
+  drawSplines(pts) {
+    let cps = []; // There will be two control points for each "middle" point, 1 ... len-2e
+    for (var i = 0; i < pts.length - 2; i += 1) {
+      cps = cps.concat(this.ctlpts(pts[2*i], pts[2*i+1], pts[2*i+2], pts[2*i+3], pts[2*i+4], pts[2*i+5]));
+    }
+      this.ctx.fillStyle = this.ctx.strokeStyle;
+      this.drawCurvedPath(cps, pts);
+  }
+
+
+  // Draw wave #2
+  draw2(arrayHeightBars) {
+    this.ctx.clearRect(0, 0, this.width, this.height)
+
+    const createSplinePoints = (hFactor1, hFactor2, hFactor3, hFactor4) => {
+      // Create points addSplinePoint(x, y)
+      const pts1 = [];
+      const pts2 = [];
+      const pts3 = [];
+      const pts4 = [];
+      
+      const step = Math.floor(this.width * this.waveWidth); // Step should be an integer
+      
+      for (let i = 0; i <= this.width+step; i += step) {
+        const height = arrayHeightBars[i] * this.height;
+
+        const y1 = height * hFactor1 + this.minHeight;
+        const y2 = height * hFactor2 + this.minHeight;
+        const y3 = height * hFactor3 + this.minHeight;
+        const y4 = height * hFactor4 + this.minHeight;
+        
+        pts1.push(i); pts1.push(this.height - y1);
+        pts2.push(i); pts2.push(this.height - y2);
+        pts3.push(i); pts3.push(this.height - y3);
+        pts4.push(i); pts4.push(this.height - y4);
+      }
+      return [pts1, pts2, pts3, pts4];
+    }
+
+
+    arrayHeightBars = this.lowerBass(arrayHeightBars, this.bassCount, this.bassFactor);
+
+    const [pts1, pts2, pts3, pts4] = createSplinePoints(1, .8, 1.2, 1.57); 
+
+    this.ctx.globalAlpha = 0.3;
+    this.ctx.strokeStyle = 'hsl(10, 80%, 30%)'
+    this.drawSplines(pts4);
+
+    this.ctx.globalAlpha = 0.4;
+    this.ctx.strokeStyle = 'hsl(10, 80%, 50%)'
+    this.drawSplines(pts3);    
+
+    this.ctx.globalAlpha = 0.5;
+    this.ctx.strokeStyle = 'hsl(15, 80%, 50%)'
+    this.drawSplines(pts2);    
+
+    this.ctx.globalAlpha = 0.5;
+    this.ctx.strokeStyle = 'hsl(35, 70%, 75%)'
+    this.drawSplines(pts1);    
+    
+  }  
+
+
   // Draw Wave#5
   draw5(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
@@ -84,122 +204,31 @@ class Wave {
     }
   }
 
-  // Draw wave #7
-  draw2(arrayHeightBars) {
+  // Draw wave#7
+  draw7(arrayHeightBars) {
     this.ctx.clearRect(0, 0, this.width, this.height)
 
-    const createSplinePoints = (hFactor1, hFactor2, hFactor3, hFactor4) => {
+    const createSplinePoints = (hFactor1) => {
       // Create points addSplinePoint(x, y)
       const pts1 = [];
-      const pts2 = [];
-      const pts3 = [];
-      const pts4 = [];
-      
       const step = Math.floor(this.width * this.waveWidth); // Step should be an integer
       
       for (let i = 0; i <= this.width+step; i += step) {
         const height = arrayHeightBars[i] * this.height;
+        const y1 = height * hFactor1 + this.minHeight;
 
-        const y1 = height  * hFactor1 + this.minHeight;
-        const y2 = height  * hFactor2 + this.minHeight;
-        const y3 = height  * hFactor3 + this.minHeight;
-        const y4 = height  * hFactor4 + this.minHeight;
-        
         pts1.push(i); pts1.push(this.height - y1);
-        pts2.push(i); pts2.push(this.height - y2);
-        pts3.push(i); pts3.push(this.height - y3);
-        pts4.push(i); pts4.push(this.height - y4);
+
       }
-      return [pts1, pts2, pts3, pts4];
+      return pts1;
     }
 
-    
-    // Lower Bass
-    const lowerBass = (arrayHeightBars, counter, factor) => {
-      for (let i = 0; i < counter; i++) {
-        arrayHeightBars[i] = arrayHeightBars[i] * factor;
-      }
-      return arrayHeightBars;
-    }
+    arrayHeightBars = this.lowerBass(arrayHeightBars, this.bassCount, this.bassFactor);
 
+    const pts1 = createSplinePoints(1); 
 
-    const va = (arr, i, j) => {
-      return [arr[2*j]-arr[2*i], arr[2*j+1]-arr[2*i+1]]
-    }
-
-
-    function dista(arr, i, j) {
-      return Math.sqrt(Math.pow(arr[2*i]-arr[2*j], 2) + Math.pow(arr[2*i+1]-arr[2*j+1], 2));
-    }
-
-
-    const ctlpts = (x1,y1,x2,y2,x3,y3) => {
-      var t = this.tension;
-      var v = va([x1,y1,x2,y2,x3,y3], 0, 2);
-      var d01 = dista([x1,y1,x2,y2,x3,y3], 0, 1);
-      var d12 = dista([x1,y1,x2,y2,x3,y3], 1, 2);
-      var d012 = d01 + d12;
-      return [x2 - v[0] * t * d01 / d012, y2 - v[1] * t * d01 / d012,
-              x2 + v[0] * t * d12 / d012, y2 + v[1] * t * d12 / d012 ];
-    }
-
-
-    const drawCurvedPath = (cps, pts) => {
-      var len = pts.length / 2; // number of points    
-
-      this.ctx.beginPath();
-      this.ctx.moveTo(pts[0], pts[1]);
-      // from point 0 to point 1 is a quadratic
-      this.ctx.quadraticCurveTo(cps[0], cps[1], pts[2], pts[3]);
-      // for all middle points, connect with bezier
-      for (var i = 2; i < len-1; i += 1) {
-        this.ctx.bezierCurveTo(cps[(2*(i-1)-1)*2], cps[(2*(i-1)-1)*2+1],
-                          cps[(2*(i-1))*2], cps[(2*(i-1))*2+1],
-                          pts[i*2], pts[i*2+1]);
-      }
-      this.ctx.quadraticCurveTo(cps[(2*(i-1)-1)*2], cps[(2*(i-1)-1)*2+1],
-                           pts[i*2], pts[i*2+1]);
-
-      // Closure
-      this.ctx.lineTo(this.width, this.height);
-      this.ctx.lineTo(0, this.height);
-
-      // this.ctx.closePath();
-
-      this.ctx.stroke();
-      this.ctx.fill();
-    }
-
-
-    const drawSplines = (pts) => {
-      let cps = []; // There will be two control points for each "middle" point, 1 ... len-2e
-      for (var i = 0; i < pts.length - 2; i += 1) {
-        cps = cps.concat(ctlpts(pts[2*i], pts[2*i+1], pts[2*i+2], pts[2*i+3], pts[2*i+4], pts[2*i+5]));
-      }
-        this.ctx.fillStyle = this.ctx.strokeStyle;
-        drawCurvedPath(cps, pts);
-    }
-
-    arrayHeightBars = lowerBass(arrayHeightBars, 150, 0.8);
-
-    const [pts1, pts2, pts3, pts4] = createSplinePoints(1, .8, 1.2, 1.57); 
-
-    this.ctx.globalAlpha = 0.3;
-    this.ctx.strokeStyle = 'hsl(10, 80%, 30%)'
-    drawSplines(pts4);
-
-    this.ctx.globalAlpha = 0.4;
-    this.ctx.strokeStyle = 'hsl(10, 80%, 50%)'
-    drawSplines(pts3);    
-
-    this.ctx.globalAlpha = 0.5;
-    this.ctx.strokeStyle = 'hsl(15, 80%, 50%)'
-    drawSplines(pts2);    
-
-    this.ctx.globalAlpha = 0.5;
-    this.ctx.strokeStyle = 'hsl(35, 70%, 75%)'
-    drawSplines(pts1);    
-    
+    this.ctx.strokeStyle = 'hsl(304, 100%, 67%)'
+    this.drawSplines(pts1);    
   }
 
 
@@ -297,8 +326,17 @@ function chooseDrawFunction(name, analyser) {
       analyser.minDecibels = -95; 
       analyser.maxDecibels = 0;
       wave.waveWidth = 0.085;
+      wave.bassFactor = 0.7;
       wave.calculatingVariables(wave.width*2, 0.04, 1);
       return wave.draw2;
+    }
+    case 'wave7': {
+      analyser.fftSize = 2048*4;
+      analyser.minDecibels = -80; 
+      wave.waveWidth = 0.085;
+      wave.bassFactor = 0.7;
+      wave.calculatingVariables(wave.width*2, 0.04, 1);
+      return wave.draw7;
     }
     default:
       return null;
