@@ -1,11 +1,10 @@
 class Wave2 {
-    itemCount;
-    minHeight = 0;
+    minHeight = 0.04;
     barWidth = 1;
     widthInPercent = 0.5; // (0-1)
-    bassFactor = 1;
+    bassFactor = 0.7;
     bassCount = 150;
-    waveWidth = 0.09;
+    waveWidth = 0.085;
     tension = 0.4;
     ctx;
     canvas;
@@ -16,30 +15,24 @@ class Wave2 {
   
     constructor(
         canvas, 
-        itemCount = 45, 
-        minHeight = 0.03, 
+        minHeight = 0.04, 
         widthInPercent = 0.5, 
       ) {
         
       this.canvas = canvas;
       this.minHeight = this.height * minHeight;
       this.widthInPercent = widthInPercent;
-      this.itemCount = itemCount;
+      this.itemCount = this.width*2;
   
       this.calculatingVariables();
     }
   
-    calculatingVariables(itemCount = this.itemCount, minHeight = 0, widthInPercent = this.widthInPercent ) {
+    calculatingVariables(minHeight = 0.04) {
       this.getSize();
      
       this.minHeight = this.height * minHeight; // New minHeight
-      this.itemCount = itemCount; // New itemCount
      
-      // calculating
-      this.barWidth = this.width / this.itemCount;
-      
       this.ctx = this.canvas.getContext('2d');
-      this.ctx.lineWidth = this.barWidth * widthInPercent;
     }
   
     getSize() {
