@@ -1,7 +1,5 @@
 class Wave2 {
     minHeight = 0.04;
-    barWidth = 1;
-    widthInPercent = 0.5; // (0-1)
     bassFactor = 0.7;
     bassCount = 150;
     waveWidth = 0.085;
@@ -16,12 +14,10 @@ class Wave2 {
     constructor(
         canvas, 
         minHeight = 0.04, 
-        widthInPercent = 0.5, 
       ) {
         
       this.canvas = canvas;
       this.minHeight = this.height * minHeight;
-      this.widthInPercent = widthInPercent;
       this.itemCount = this.width*2;
   
       this.calculatingVariables();
