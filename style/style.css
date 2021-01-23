@@ -68,42 +68,12 @@ main h3 {
   text-align: center;
   color: white;
 }
-main .wave5 {
+main .wave {
   position: absolute;
   display: flex;
   top: 40vh;
-  width: 450px;
-  height: 100px;
-  z-index: -1;
-  pointer-events: none;
-  border: 1px solid grey;
-}
-main .wave6 {
-  position: absolute;
-  display: flex;
-  top: 40vh;
-  width: 450px;
-  height: 120px;
-  z-index: -1;
-  pointer-events: none;
-  border: 1px solid grey;
-}
-main .wave2 {
-  position: absolute;
-  display: flex;
-  top: 40vh;
-  width: 450px;
-  height: 100px;
-  z-index: -1;
-  pointer-events: none;
-  border: 1px solid grey;
-}
-main .wave7 {
-  position: absolute;
-  display: flex;
-  top: 40vh;
-  width: 450px;
-  height: 100px;
+  width: 300px;
+  height: 70px;
   z-index: -1;
   pointer-events: none;
   border: 1px solid grey;
