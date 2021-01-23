@@ -7,10 +7,6 @@ class Wave7 {
     ctx;
     canvas;
     styles = [[1, 'hsl(304, 100%, 67%)']];
-    
-  
-    get height() {return this.canvas.height;}
-    get width() {return this.canvas.width;}
   
 
     constructor(
@@ -19,25 +15,13 @@ class Wave7 {
       ) {
 
       this.canvas = canvas;
-      this.minHeight = this.height * minHeight;
-  
-      this.calculatingVariables();
-    }
-  
 
-    calculatingVariables(minHeight = 0.04) {
-      this.getSize();
-     
-      this.minHeight = this.height * minHeight; // New minHeight
-      
+      this.minHeight = this.canvasHeight * minHeight;
+  
       this.ctx = this.canvas.getContext('2d');
+
     }
   
-
-    getSize() {
-      this.canvas.width = this.canvas.clientWidth * window.devicePixelRatio;
-      this.canvas.height = this.canvas.clientHeight * window.devicePixelRatio;
-    }
     
     lowerBass(arrayHeightBars, count, factor) {
         for (let i = 0; i < count; i++) {
@@ -85,8 +69,8 @@ class Wave7 {
                            pts[i*2], pts[i*2+1]);
 
       // Closure
-      this.ctx.lineTo(this.width, this.height);
-      this.ctx.lineTo(0, this.height);
+      this.ctx.lineTo(this.canvasWidth, this.canvasHeight);
+      this.ctx.lineTo(0, this.canvasHeight);
 
       this.ctx.stroke();
       this.ctx.fill();
@@ -103,18 +87,18 @@ class Wave7 {
     }
           
     draw(arrayHeightBars) {
-        this.ctx.clearRect(0, 0, this.width, this.height)
+        this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
     
         const createSplinePoints = (hFactor1) => {
           // Create points addSplinePoint(x, y)
           const pts1 = [];
-          const step = Math.floor(this.width * this.waveWidth); // Step should be an integer
+          const step = Math.floor(this.canvasWidth * this.waveWidth); // Step should be an integer
           
-          for (let i = 0; i <= this.width+step; i += step) {
-            const height = arrayHeightBars[i] * this.height;
+          for (let i = 0; i <= this.canvasWidth+step; i += step) {
+            const height = arrayHeightBars[i] * this.canvasHeight;
             const y1 = height * hFactor1 + this.minHeight;
     
-            pts1.push(i); pts1.push(this.height - y1);
+            pts1.push(i); pts1.push(this.canvasHeight - y1);
     
           }
           return pts1;
@@ -126,5 +110,34 @@ class Wave7 {
     
         this.ctx.strokeStyle = this.styles[0][1];
         this.drawSplines(pts1);    
+    }
+
+
+    get canvasHeight() { 
+      if (this._cachedCanvasHeight) {
+        return this._cachedCanvasHeight
+      }
+    
+      if (window) {
+        this._cachedCanvasHeight =  this.canvas.clientHeight * window.devicePixelRatio
+        return this._cachedCanvasHeight
+      } else {
+        this._cachedCanvasHeight =  this.canvas.height
+        return this._cachedCanvasHeight 
+      }
+    }
+
+    get canvasWidth() { 
+      if (this._cachedCanvasWidth) {
+        return this._cachedCanvasWidth
+      }
+    
+      if (window) {
+        this._cachedCanvasWidth =  this.canvas.clientWidth * window.devicePixelRatio
+        return this._cachedCanvasWidth
+      } else {
+        this._cachedCanvasWidth =  this.canvas.width
+        return this._cachedCanvasWidth 
+      }
     }
 }

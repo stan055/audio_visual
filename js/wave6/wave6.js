@@ -10,10 +10,6 @@ class Wave6 {
     ctx;
     canvas;
     styles = [[1, 'hsl(250, 90%, 77%)']]; 
-
-  
-    get height() {return this.canvas.height;}
-    get width() {return this.canvas.width;}
   
 
     constructor(
@@ -24,31 +20,11 @@ class Wave6 {
       ) {
 
       this.canvas = canvas;
-      this.minHeight = minHeight;
       this.widthInPercent = widthInPercent;
       this.itemCount = itemCount;
-  
-      this.calculatingVariables();
-    }
-  
-    getSize() {
-        this.canvas.width = this.canvas.clientWidth * window.devicePixelRatio;
-        this.canvas.height = this.canvas.clientHeight * window.devicePixelRatio;
-    }
-    
-    calculatingVariables(
-        itemCount = this.itemCount, 
-        minHeight = this.minHeight, 
-        widthInPercent = this.widthInPercent 
-      ) {
-      
-        this.getSize();
-     
-      this.minHeight = this.height * minHeight; // New minHeight
-      this.itemCount = itemCount; // New itemCount
-     
-      // calculating
-      this.barWidth = this.width / this.itemCount;
+
+      this.minHeight = this.canvasHeight * minHeight;
+      this.barWidth = this.canvasWidth / this.itemCount;
       this.startX = this.barWidth * widthInPercent / 2;
       
       this.ctx = this.canvas.getContext('2d');
@@ -57,20 +33,48 @@ class Wave6 {
 
 
     draw(arrayHeightBars) {
-        this.ctx.clearRect(0, 0, this.width, this.height)
+        this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
     
-        const midCanvasY = this.height / 2;
+        const midCanvasY = this.canvasHeight / 2;
         this.ctx.strokeStyle = this.styles[0][1];
     
         for (let i = 0; i < arrayHeightBars.length; i++) {
           this.ctx.beginPath();
     
           const step = this.barWidth * i + this.startX;
-          const heightBar = arrayHeightBars[i] * this.height * this.heightBarFactor + this.minHeight;      
+          const heightBar = arrayHeightBars[i] * this.canvasHeight * this.heightBarFactor + this.minHeight;      
     
           this.ctx.moveTo(step, midCanvasY + heightBar / 2);
           this.ctx.lineTo(step, midCanvasY - heightBar + heightBar / 2);
           this.ctx.stroke();
         }
+    }
+
+    get canvasHeight() { 
+      if (this._cachedCanvasHeight) {
+        return this._cachedCanvasHeight
+      }
+    
+      if (window) {
+        this._cachedCanvasHeight =  this.canvas.clientHeight * window.devicePixelRatio
+        return this._cachedCanvasHeight
+      } else {
+        this._cachedCanvasHeight =  this.canvas.height
+        return this._cachedCanvasHeight 
+      }
+    }
+
+    get canvasWidth() { 
+      if (this._cachedCanvasWidth) {
+        return this._cachedCanvasWidth
+      }
+    
+      if (window) {
+        this._cachedCanvasWidth =  this.canvas.clientWidth * window.devicePixelRatio
+        return this._cachedCanvasWidth
+      } else {
+        this._cachedCanvasWidth =  this.canvas.width
+        return this._cachedCanvasWidth 
+      }
     }
 }

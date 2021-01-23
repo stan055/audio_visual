@@ -8,8 +8,6 @@ class Wave2 {
     canvas;
     styles = [[0.3, 'hsl(10, 80%, 30%)'], [0.4, 'hsl(10, 80%, 50%)'],  [0.5, 'hsl(15, 80%, 50%)'], [0.5, 'hsl(35, 70%, 75%)']];
     
-    get height() {return this.canvas.height;}
-    get width() {return this.canvas.width;}
   
     constructor(
         canvas, 
@@ -17,27 +15,16 @@ class Wave2 {
       ) {
         
       this.canvas = canvas;
-      this.minHeight = this.height * minHeight;
-      this.itemCount = this.width*2;
   
-      this.calculatingVariables();
-    }
-  
-    calculatingVariables(minHeight = 0.04) {
-      this.getSize();
-     
-      this.minHeight = this.height * minHeight; // New minHeight
+      // this.canvasWidth = this.canvas.clientWidth * window.devicePixelRatio;
+      // this.canvasHeight = this.canvas.clientHeight * window.devicePixelRatio;
+      
+      this.minHeight = this.canvasHeight * minHeight;
      
       this.ctx = this.canvas.getContext('2d');
     }
-  
-    getSize() {
-      this.canvas.width = this.canvas.clientWidth * window.devicePixelRatio;
-      this.canvas.height = this.canvas.clientHeight * window.devicePixelRatio;
-    }
 
-
-      // Lower Bass
+    
     lowerBass(arrayHeightBars, count, factor) {
       for (let i = 0; i < count; i++) {
         arrayHeightBars[i] = arrayHeightBars[i] * factor;
@@ -84,8 +71,8 @@ class Wave2 {
                            pts[i*2], pts[i*2+1]);
 
       // Closure
-      this.ctx.lineTo(this.width, this.height);
-      this.ctx.lineTo(0, this.height);
+      this.ctx.lineTo(this.canvasWidth, this.canvasHeight);
+      this.ctx.lineTo(0, this.canvasHeight);
 
       this.ctx.stroke();
       this.ctx.fill();
@@ -103,7 +90,7 @@ class Wave2 {
 
 
     draw(arrayHeightBars) {
-        this.ctx.clearRect(0, 0, this.width, this.height)
+        this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
     
         const createSplinePoints = (hFactor1, hFactor2, hFactor3, hFactor4) => {
           // Create points addSplinePoint(x, y)
@@ -112,20 +99,20 @@ class Wave2 {
           const pts3 = [];
           const pts4 = [];
           
-          const step = Math.floor(this.width * this.waveWidth); // Step should be an integer
+          const step = Math.floor(this.canvasWidth * this.waveWidth); // Step should be an integer
           
-          for (let i = 0; i <= this.width+step; i += step) {
-            const height = arrayHeightBars[i] * this.height;
+          for (let i = 0; i <= this.canvasWidth+step; i += step) {
+            const height = arrayHeightBars[i] * this.canvasHeight;
     
             const y1 = height * hFactor1 + this.minHeight;
             const y2 = height * hFactor2 + this.minHeight;
             const y3 = height * hFactor3 + this.minHeight;
             const y4 = height * hFactor4 + this.minHeight;
             
-            pts1.push(i); pts1.push(this.height - y1);
-            pts2.push(i); pts2.push(this.height - y2);
-            pts3.push(i); pts3.push(this.height - y3);
-            pts4.push(i); pts4.push(this.height - y4);
+            pts1.push(i); pts1.push(this.canvasHeight - y1);
+            pts2.push(i); pts2.push(this.canvasHeight - y2);
+            pts3.push(i); pts3.push(this.canvasHeight - y3);
+            pts4.push(i); pts4.push(this.canvasHeight - y4);
           }
           return [pts1, pts2, pts3, pts4];
         }
@@ -142,4 +129,32 @@ class Wave2 {
         }
         
     }  
+
+    get canvasHeight() { 
+      if (this._cachedCanvasHeight) {
+        return this._cachedCanvasHeight
+      }
+    
+      if (window) {
+        this._cachedCanvasHeight =  this.canvas.clientHeight * window.devicePixelRatio
+        return this._cachedCanvasHeight
+      } else {
+        this._cachedCanvasHeight =  this.canvas.height
+        return this._cachedCanvasHeight 
+      }
+    }
+
+    get canvasWidth() { 
+      if (this._cachedCanvasWidth) {
+        return this._cachedCanvasWidth
+      }
+    
+      if (window) {
+        this._cachedCanvasWidth =  this.canvas.clientWidth * window.devicePixelRatio
+        return this._cachedCanvasWidth
+      } else {
+        this._cachedCanvasWidth =  this.canvas.width
+        return this._cachedCanvasWidth 
+      }
+    }
 }
