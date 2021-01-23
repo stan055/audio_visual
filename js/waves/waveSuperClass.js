@@ -12,13 +12,8 @@ class WaveSuperClass {
       return this._cachedCanvasHeight
     }
 
-    if (window) {
-      this._cachedCanvasHeight =  this.canvas.clientHeight * window.devicePixelRatio
-      return this._cachedCanvasHeight
-    } else {
-      this._cachedCanvasHeight =  this.canvas.height
-      return this._cachedCanvasHeight
-    }
+    this._cachedCanvasHeight =  this.canvas.height
+    return this._cachedCanvasHeight
   }
 
   get canvasWidth() {
@@ -26,12 +21,7 @@ class WaveSuperClass {
       return this._cachedCanvasWidth
     }
 
-    if (window) {
-      this._cachedCanvasWidth =  this.canvas.clientWidth * window.devicePixelRatio
-      return this._cachedCanvasWidth
-    } else {
-      this._cachedCanvasWidth =  this.canvas.width
-      return this._cachedCanvasWidth
-    }
+    this._cachedCanvasWidth =  this.canvas.width
+    return this._cachedCanvasWidth
   }
 }
