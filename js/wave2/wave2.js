@@ -16,8 +16,8 @@ class Wave2 {
         
       this.canvas = canvas;
   
-      this.canvasWidth = this.canvas.clientWidth * window.devicePixelRatio;
-      this.canvasHeight = this.canvas.clientHeight * window.devicePixelRatio;
+      // this.canvasWidth = this.canvas.clientWidth * window.devicePixelRatio;
+      // this.canvasHeight = this.canvas.clientHeight * window.devicePixelRatio;
       
       this.minHeight = this.canvasHeight * minHeight;
      
@@ -129,4 +129,32 @@ class Wave2 {
         }
         
     }  
+
+    get canvasHeight() { 
+      if (this._cachedCanvasHeight) {
+        return this._cachedCanvasHeight
+      }
+    
+      if (window) {
+        this._cachedCanvasHeight =  this.canvas.clientHeight * window.devicePixelRatio
+        return this._cachedCanvasHeight
+      } else {
+        this._cachedCanvasHeight =  this.canvas.height
+        return this._cachedCanvasHeight 
+      }
+    }
+
+    get canvasWidth() { 
+      if (this._cachedCanvasWidth) {
+        return this._cachedCanvasWidth
+      }
+    
+      if (window) {
+        this._cachedCanvasWidth =  this.canvas.clientWidth * window.devicePixelRatio
+        return this._cachedCanvasWidth
+      } else {
+        this._cachedCanvasWidth =  this.canvas.width
+        return this._cachedCanvasWidth 
+      }
+    }
 }
