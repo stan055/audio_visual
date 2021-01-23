@@ -72,8 +72,6 @@ main .wave {
   position: absolute;
   display: flex;
   top: 40vh;
-  width: 300px;
-  height: 70px;
   z-index: -1;
   pointer-events: none;
   border: 1px solid grey;
