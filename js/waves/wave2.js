@@ -1,6 +1,6 @@
 class Wave2 extends WaveSuperClass {
     minHeight = 0.04;
-    bassFactor = 0.7;
+    bassFactor = 0.9;
     bassCount = 150;
     waveWidth = 0.085;
     tension = 0.4;
