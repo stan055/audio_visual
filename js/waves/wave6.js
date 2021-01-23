@@ -5,7 +5,7 @@ class Wave6 extends WaveSuperClass{
     widthInPercent = 0.4; // (0-1)
     startX = 0;
     heightBarFactor = 1.1;
-    fftSize = 256;
+    fftSize = 2048;
     minDecibels = -60;
     styles = [[1, 'hsl(250, 90%, 77%)']];
 
