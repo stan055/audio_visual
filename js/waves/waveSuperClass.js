@@ -1,4 +1,6 @@
 class WaveSuperClass {
+  fftSize = 2048;
+  minDecibels = -100;
   ctx;
   canvas;
 
