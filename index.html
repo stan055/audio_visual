@@ -46,7 +46,7 @@
         <canvas id="visualizer" class="wave"  name="wave7" height="70" width="300"></canvas>
         <audio id="audio" src=""></audio>
     </main>
-       
+
     <footer>
         <div class="file-drop-area">
             <span class="fake-btn">Choose file</span>
@@ -55,8 +55,14 @@
         </div>
     </footer>
 </body>
-<script src="js/wave7/wave7.js"></script>
+<script src="js/index.js"></script>
+<script src="js/waves/waveSuperClass.js"></script>
+<script src="js/waves/wave7.js"></script>
 <script src="js/recursiveDraw.js"></script>
-<script src="js/wave7/index.js"></script>
+<script>
+  function initWave(analyzer, canvas) {
+    return new Wave7(canvas);
+  }
+</script>
 <script src="js/choose_file.js"></script>
 </html>

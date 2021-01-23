@@ -1,36 +1,26 @@
-class Wave2 {
+class Wave7 extends WaveSuperClass {
     minHeight = 0.04;
     bassFactor = 0.7;
     bassCount = 150;
     waveWidth = 0.085;
     tension = 0.4;
-    ctx;
-    canvas;
-    styles = [[0.3, 'hsl(10, 80%, 30%)'], [0.4, 'hsl(10, 80%, 50%)'],  [0.5, 'hsl(15, 80%, 50%)'], [0.5, 'hsl(35, 70%, 75%)']];
-    
-  
-    constructor(
-        canvas, 
-        minHeight = 0.04, 
-      ) {
-        
-      this.canvas = canvas;
-  
-      // this.canvasWidth = this.canvas.clientWidth * window.devicePixelRatio;
-      // this.canvasHeight = this.canvas.clientHeight * window.devicePixelRatio;
-      
-      this.minHeight = this.canvasHeight * minHeight;
-     
-      this.ctx = this.canvas.getContext('2d');
+    fftSize = 2048*4;
+    minDecibels = -80;
+    styles = [[1, 'hsl(304, 100%, 67%)']];
+
+
+    constructor(canvas) {
+      super(canvas);
+      this.minHeight = this.canvasHeight * this.minHeight;
     }
 
-    
+
     lowerBass(arrayHeightBars, count, factor) {
-      for (let i = 0; i < count; i++) {
-        arrayHeightBars[i] = arrayHeightBars[i] * factor;
+        for (let i = 0; i < count; i++) {
+          arrayHeightBars[i] = arrayHeightBars[i] * factor;
+        }
+        return arrayHeightBars;
       }
-      return arrayHeightBars;
-    }
 
 
     va(arr, i, j) {
@@ -55,7 +45,7 @@ class Wave2 {
 
 
     drawCurvedPath(cps, pts) {
-      var len = pts.length / 2; // number of points    
+      var len = pts.length / 2; // number of points
 
       this.ctx.beginPath();
       this.ctx.moveTo(pts[0], pts[1]);
@@ -88,73 +78,29 @@ class Wave2 {
         this.drawCurvedPath(cps, pts);
     }
 
-
     draw(arrayHeightBars) {
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
-    
-        const createSplinePoints = (hFactor1, hFactor2, hFactor3, hFactor4) => {
+
+        const createSplinePoints = (hFactor1) => {
           // Create points addSplinePoint(x, y)
           const pts1 = [];
-          const pts2 = [];
-          const pts3 = [];
-          const pts4 = [];
-          
           const step = Math.floor(this.canvasWidth * this.waveWidth); // Step should be an integer
-          
+
           for (let i = 0; i <= this.canvasWidth+step; i += step) {
             const height = arrayHeightBars[i] * this.canvasHeight;
-    
             const y1 = height * hFactor1 + this.minHeight;
-            const y2 = height * hFactor2 + this.minHeight;
-            const y3 = height * hFactor3 + this.minHeight;
-            const y4 = height * hFactor4 + this.minHeight;
-            
+
             pts1.push(i); pts1.push(this.canvasHeight - y1);
-            pts2.push(i); pts2.push(this.canvasHeight - y2);
-            pts3.push(i); pts3.push(this.canvasHeight - y3);
-            pts4.push(i); pts4.push(this.canvasHeight - y4);
+
           }
-          return [pts1, pts2, pts3, pts4];
+          return pts1;
         }
-    
-    
+
         arrayHeightBars = this.lowerBass(arrayHeightBars, this.bassCount, this.bassFactor);
-    
-        const pts = createSplinePoints( 1, 0.75, 0.45, 0.55); 
-                                                             
-        for (let i = 0; i < pts.length; i++) {
-          this.ctx.globalAlpha = this.styles[i][0];
-          this.ctx.strokeStyle = this.styles[i][1];
-          this.drawSplines(pts[i]);    
-        }
-        
-    }  
 
-    get canvasHeight() { 
-      if (this._cachedCanvasHeight) {
-        return this._cachedCanvasHeight
-      }
-    
-      if (window) {
-        this._cachedCanvasHeight =  this.canvas.clientHeight * window.devicePixelRatio
-        return this._cachedCanvasHeight
-      } else {
-        this._cachedCanvasHeight =  this.canvas.height
-        return this._cachedCanvasHeight 
-      }
-    }
+        const pts1 = createSplinePoints(1);
 
-    get canvasWidth() { 
-      if (this._cachedCanvasWidth) {
-        return this._cachedCanvasWidth
-      }
-    
-      if (window) {
-        this._cachedCanvasWidth =  this.canvas.clientWidth * window.devicePixelRatio
-        return this._cachedCanvasWidth
-      } else {
-        this._cachedCanvasWidth =  this.canvas.width
-        return this._cachedCanvasWidth 
-      }
+        this.ctx.strokeStyle = this.styles[0][1];
+        this.drawSplines(pts1);
     }
 }
