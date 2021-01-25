@@ -1,5 +1,5 @@
 class Wave1 extends WaveSuperClass {
-    minHeight = 0.02;
+    minHeight = 0.01;
     bassFactor = 0.9;
     bassCount = 150;
     waveWidth = 0.017;
