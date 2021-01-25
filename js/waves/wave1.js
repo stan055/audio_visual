@@ -5,7 +5,7 @@ class Wave1 extends WaveSuperClass {
     waveWidth = 0.017;
     tension = 0.2;
     fftSize = 2048*4;
-    minDecibels = -60;
+    minDecibels = -70;
     styles = [[0.5, 'hsl(190, 100%, 50%)'], [0.5, 'hsl(190, 100%, 50%)'], [1, 'hsl(190, 100%, 50%)'], [1, 'hsl(190, 100%, 50%)']];
 
 
