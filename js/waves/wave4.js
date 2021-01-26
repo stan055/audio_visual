@@ -8,8 +8,8 @@ class Wave4 extends WaveSuperClass {
   minDecibels = -70;
   styles = [[1, 'hsl(0, 1%, 99%)']];
   heightWaveFactorOutside = 0.16;     // height factor outside square
-  heightWaveFactorInside = 0.16; // height factor inside square
-  heightDifferenceFactor = 0.1; // Height difference factor of squares
+  heightWaveFactorInside = 0.16;      // height factor inside square
+  heightDifferenceFactor = 0.1;       // Height difference factor of squares
 
   constructor(canvas) {
     super(canvas);
