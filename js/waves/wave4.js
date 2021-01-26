@@ -1,4 +1,4 @@
-class Wave3 extends WaveSuperClass {
+class Wave4 extends WaveSuperClass {
   minHeight = 0.005;
   waveWidth = 0.2;
   bassFactor = 0.5;
