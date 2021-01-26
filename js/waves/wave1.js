@@ -104,7 +104,6 @@ class Wave1 extends WaveSuperClass {
           return [pts1, pts1Mirror, pts2, pts2Mirror];
         }
 
-        // arrayHeightBars = this.lowerBass(arrayHeightBars, this.bassCount, this.bassFactor);
 
         const pts = createSplinePoints(0.5, 0.2);
         for (let i = 0; i < pts.length; i++) {
