@@ -1,13 +1,13 @@
 class Wave4 extends WaveSuperClass {
   minHeight = 0.005;
   waveWidth = 0.2;
-  bassFactor = 0.5;
+  bassFactor = 0.6;
   bassCount = 150;
   tension = 0.4;
   fftSize = 2048*4;
   minDecibels = -70;
   styles = [[1, 'hsl(0, 1%, 99%)']];
-  heightWaveFactor = 0.12;
+  heightWaveFactor = 0.16; 
   heightDifferenceFactor = 0.1; // Height difference factor of squares
 
   constructor(canvas) {
@@ -145,7 +145,7 @@ class Wave4 extends WaveSuperClass {
         const ptsTop = [];
         const ptsLeft = [];
         const step = Math.floor(sideLength * this.waveWidth); // Step should be an integer
-        const heightFactor = sideLength * this.heightWaveFactor;
+        const heightFactor = sideLength * (this.heightWaveFactor + 0.05);
 
         for (let i = 0; i <= sideLength; i += step) {
           let y1, y2, y3, y4;
