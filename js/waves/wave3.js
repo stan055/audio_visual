@@ -7,7 +7,7 @@ class Wave3 extends WaveSuperClass {
   fftSize = 2048*4;
   minDecibels = -70;
   styles = [[1, 'hsl(0, 1%, 99%)']];
-  heightWaveFactor = 0.13;
+  heightWaveFactor = 0.12;
   heightDifferenceFactor = 0.1; // Height difference factor of squares
 
   constructor(canvas) {
