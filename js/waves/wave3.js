@@ -91,12 +91,13 @@ class Wave3 extends WaveSuperClass {
       const rightX = leftX + this.sideLength;
       const topY = this.canvasHeight - this.sideLength;
       const bottomY = this.sideLength;
-      const pointsToFill = [
+      const pointsToFill1 = [
         [rightX, bottomY, leftX, bottomY],
         [rightX, topY, rightX, bottomY],
         [leftX, topY, rightX, topY],
         [leftX, bottomY, leftX, topY],
-
+      ]
+      const pointsToFill2 = [  
         [rightX - heightDiff, bottomY - heightDiff, leftX + heightDiff, bottomY - heightDiff],
         [rightX - heightDiff, topY + heightDiff, rightX - heightDiff, bottomY - heightDiff],
         [leftX + heightDiff, topY + heightDiff, rightX - heightDiff, topY + heightDiff],
@@ -110,13 +111,13 @@ class Wave3 extends WaveSuperClass {
         return arrayHeightBars[sideLength + i] * heightFactor + this.minHeight;
       } 
 
-      const createSplinePoints = (diff) => {
+      const createSplinePoints1 = () => {
         // Create points addSplinePoint(x, y)
-        const sideLength = this.sideLength - diff*2;
-        const ptsBottom1 = [];
-        const ptsRight1 = [];
-        const ptsTop1 = [];
-        const ptsLeft1 = [];
+        const sideLength = this.sideLength;
+        const ptsBottom = [];
+        const ptsRight = [];
+        const ptsTop = [];
+        const ptsLeft = [];
         const step = Math.floor(sideLength * this.waveWidth); // Step should be an integer
         const heightFactor = sideLength * this.heightWaveFactor;
 
@@ -128,29 +129,56 @@ class Wave3 extends WaveSuperClass {
           y3 = createY(i, sideLength, 2, heightFactor);
           y4 = createY(i, sideLength, 3, heightFactor);
 
-          ptsRight1.push(rightX - diff - y1); ptsRight1.push(bottomY - diff - i);
-          ptsTop1.push(rightX - diff - i); ptsTop1.push(y2 + diff);
-          ptsLeft1.push(leftX + diff + y3); ptsLeft1.push(topY + diff + i);
-          ptsBottom1.push(i + leftX + diff); ptsBottom1.push(bottomY - diff - y4);
+          ptsRight.push(rightX - y1); ptsRight.push(bottomY - i);
+          ptsTop.push(rightX - i); ptsTop.push(y2);
+          ptsLeft.push(leftX + y3); ptsLeft.push(topY + i);
+          ptsBottom.push(i + leftX); ptsBottom.push(bottomY - y4);
         }
-        return [ptsBottom1, ptsRight1, ptsTop1, ptsLeft1];
+        return [ptsBottom, ptsRight, ptsTop, ptsLeft];
       }
+      
+      const createSplinePoints2 = (diff) => {
+        // Create points addSplinePoint(x, y)
+        const sideLength = this.sideLength - diff*2;
+        const ptsBottom = [];
+        const ptsRight = [];
+        const ptsTop = [];
+        const ptsLeft = [];
+        const step = Math.floor(sideLength * this.waveWidth); // Step should be an integer
+        const heightFactor = sideLength * this.heightWaveFactor;
+
+        for (let i = 0; i <= sideLength; i += step) {
+          let y1, y2, y3, y4;
+          
+          y1 = arrayHeightBars[i] * heightFactor + this.minHeight;
+          y2 = createY(i, sideLength, 1, heightFactor);
+          y3 = createY(i, sideLength, 2, heightFactor);
+          y4 = createY(i, sideLength, 3, heightFactor);
+
+          ptsBottom.push(i + leftX + diff); ptsBottom.push(bottomY - diff - y1);
+          ptsRight.push(rightX - diff - y2); ptsRight.push(bottomY - diff - i);
+          ptsTop.push(rightX - diff - i); ptsTop.push(y3 + diff);
+          ptsLeft.push(leftX + diff + y4); ptsLeft.push(topY + diff + i);
+
+        }
+        return [ptsBottom, ptsRight, ptsTop, ptsLeft];
+      }
+
 
       arrayHeightBars = this.lowerBass(arrayHeightBars, this.bassCount, this.bassFactor);
 
-      const pts1 = createSplinePoints(0);
-      const pts2 = createSplinePoints(heightDiff);
+      const pts1 = createSplinePoints1();
+      const pts2 = createSplinePoints2(heightDiff);
     
       this.ctx.strokeStyle = this.styles[0][1];
 
-      const len = pts1.length;
-      for (let i = 0; i < len; i++) {
+      for (let i = 0; i < pts1.length; i++) {
         this.drawSplines(pts1[i]);
-        this.fillOfCurvePath(pointsToFill[i][0], pointsToFill[i][1], pointsToFill[i][2], pointsToFill[i][3]);
+        this.fillOfCurvePath(pointsToFill1[i][0], pointsToFill1[i][1], pointsToFill1[i][2], pointsToFill1[i][3]);
       }
       for (let i = 0; i < pts2.length; i++) {
         this.drawSplines(pts2[i]);
-        this.fillOfCurvePath(pointsToFill[i+len][0], pointsToFill[i+len][1], pointsToFill[i+len][2], pointsToFill[i+len][3]);
+        this.fillOfCurvePath(pointsToFill2[i][0], pointsToFill2[i][1], pointsToFill2[i][2], pointsToFill2[i][3]);
       }
   }
 }
