@@ -6,7 +6,7 @@ class Wave3 extends WaveSuperClass{
   minDecibels = -80;
   styles = [[1, 'hsl(1, 99%, 99%)']];
   lineWidth = 1;
-  factorRadiusOfCircles = [5.5, 3.8, 2];
+  factorRadiusOfCircles = [5.5, 3.8, 2]; // Difference factor radius of circles
 
   constructor(canvas) {
     super(canvas);
