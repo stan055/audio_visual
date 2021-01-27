@@ -1,5 +1,5 @@
 class Wave3 extends WaveSuperClass{
-  waveWidth = 0.08; // 0.02-0.1
+  waveWidth = 0.06; // 0.02-0.1
   waveHeightFactor = 5;
   tension = 0.4;
   fftSize = 2048*4;
