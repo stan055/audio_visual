@@ -36,13 +36,13 @@
             <a class="nav-link" aria-current="page" href="wave2.html">Wave#2</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="wave3.html">Wave#3</a>
+            <a class="nav-link active" aria-current="page" href="wave3.html">Wave#3</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="wave4.html">Wave#4</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="wave5.html">Wave#5</a>
+            <a class="nav-link" href="wave5.html">Wave#5</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="wave6.html">Wave#6</a>
@@ -56,8 +56,8 @@
   </nav>
 
   <main>
-    <h3>Wave#5</h3>
-    <canvas id="visualizer" class="wave" name="wave5" height="70" width="300"></canvas>
+    <h3>Wave#3<span style="font-weight: 400; font-size:large;">&nbsp;(height: 140 width: 300)</span></h3>
+    <canvas id="visualizer" class="wave" name="wave4" height="140" width="300"></canvas>
     <audio id="audio" src=""></audio>
   </main>
 
@@ -71,11 +71,11 @@
 </body>
 <script src="js/index.js"></script>
 <script src="js/waves/waveSuperClass.js"></script>
-<script src="js/waves/wave5.js"></script>
+<script src="js/waves/wave3.js"></script>
 <script src="js/recursiveDraw.js"></script>
 <script>
   function initWave(analyzer, canvas) {
-    return new Wave5(canvas);
+    return new Wave3(canvas);
   }
 </script>
 <script src="js/choose_file.js"></script>
