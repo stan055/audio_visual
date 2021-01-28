@@ -7,7 +7,6 @@ class Wave3 extends WaveSuperClass {
   styles = [[1, 'rgb(255, 250, 250)']];
   lineWidth = 1;
   factorRadiusOfCircles = [5.5, 3.8, 2]; // Difference factor radius of circles
-  chromakeyColor;
 
   
   constructor(canvas) {
@@ -16,7 +15,7 @@ class Wave3 extends WaveSuperClass {
 
 
   draw(arrayHeightBars) {
-    this.clearCanvas(this.chromakeyColor);
+    this.clearCanvas();
 
     const createSplinePoints = (hFactor, radius) => {
       // Create points addSplinePoint(x, y)

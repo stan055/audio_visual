@@ -4,7 +4,6 @@ class Wave2 extends WaveSuperClass {
   tension = 0.4;
   fftSize = 2048 * 4;
   styles = [[0.3, 'rgb(138, 36, 15)'], [0.4, 'rgb(230, 59, 25)'], [0.5, 'rgb(230, 77, 25)'], [0.5, 'rgb(236, 199, 147)']];
-  chromakeyColor;
 
   
   constructor(canvas) {
@@ -22,7 +21,7 @@ class Wave2 extends WaveSuperClass {
 
 
   draw(arrayHeightBars) {
-    this.clearCanvas(this.chromakeyColor);
+    this.clearCanvas();
 
     const createSplinePoints = (hFactor1, hFactor2, hFactor3, hFactor4) => {
       // Create points addSplinePoint(x, y)

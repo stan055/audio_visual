@@ -8,7 +8,6 @@ class Wave4 extends WaveSuperClass {
   heightWaveFactorOutside = 0.16;     // height wave factor outside square
   heightWaveFactorInside = 0.16;      // height wave factor inside square
   heightDifferenceFactor = 0.1;       // height difference factor of squares
-  chromakeyColor;
 
   
   constructor(canvas) {
@@ -26,7 +25,7 @@ class Wave4 extends WaveSuperClass {
 
 
   draw(arrayHeightBars) {
-    this.clearCanvas(this.chromakeyColor);
+    this.clearCanvas();
 
     this.sideLength = this.canvasHeight;
 

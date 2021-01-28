@@ -8,7 +8,6 @@ class Wave6 extends WaveSuperClass {
   fftSize = 2048;
   minDecibels = -60;
   styles = [[1, 'rgb(161, 144, 249)']];
-  chromakeyColor;
   
 
   constructor(canvas) {
@@ -22,7 +21,7 @@ class Wave6 extends WaveSuperClass {
 
 
   draw(arrayHeightBars) {
-    this.clearCanvas(this.chromakeyColor);
+    this.clearCanvas();
 
     const midCanvasY = this.canvasHeight / 2;
     this.ctx.strokeStyle = this.styles[0][1];

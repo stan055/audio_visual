@@ -5,8 +5,8 @@ class Wave7 extends WaveSuperClass {
   fftSize = 2048 * 4;
   minDecibels = -80;
   styles = [[1, 'rgb(255, 87, 244)']];
-  chromakeyColor;
 
+  
   constructor(canvas) {
     super(canvas);
     this.minHeight = this.canvasHeight * this.minHeight;
@@ -22,7 +22,7 @@ class Wave7 extends WaveSuperClass {
 
   
   draw(arrayHeightBars) {
-    this.clearCanvas(this.chromakeyColor);
+    this.clearCanvas();
 
     const createSplinePoints = (hFactor1) => {
       // Create points addSplinePoint(x, y)

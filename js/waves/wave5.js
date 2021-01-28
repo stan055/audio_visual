@@ -6,7 +6,6 @@ class Wave5 extends WaveSuperClass {
   startX = 0;
   fftSize = 512;
   styles = [[1, 'rgb(143, 255, 199)']];
-  chromakeyColor;
   
 
   constructor(canvas) {
@@ -20,7 +19,7 @@ class Wave5 extends WaveSuperClass {
 
 
   draw(arrayHeightBars) {
-    this.clearCanvas(this.chromakeyColor);
+    this.clearCanvas();
 
     this.ctx.strokeStyle = this.styles[0][1];
 
