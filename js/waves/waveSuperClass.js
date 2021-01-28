@@ -2,7 +2,7 @@ class WaveSuperClass {
   fftSize = 2048;
   minDecibels = -100;
   bassCount = 150;
-  chromakeyColor = 'green';
+  chromakeyColor = 'rgb(2, 150, 76)';
   ctx;
   canvas;
 

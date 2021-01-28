@@ -47,11 +47,11 @@ class Wave4 extends WaveSuperClass {
       [leftX + heightDiff, bottomY - heightDiff, leftX + heightDiff, topY + heightDiff]
     ]
 
-    const createY = (i, sideLength, heightFactor) => {
-      if (i + sideLength > arrayHeightBars.length)
-        return this.minHeight;
+    const createY = (i, heightFactor) => {
+      if (i < arrayHeightBars.length)
+        return arrayHeightBars[i >> 0] * heightFactor + this.minHeight;
       else
-        return arrayHeightBars[sideLength + i >> 0] * heightFactor + this.minHeight;
+        return this.minHeight;
     }
 
     const createSplinePoints1 = () => {
@@ -68,9 +68,9 @@ class Wave4 extends WaveSuperClass {
         let y1, y2, y3, y4;
 
         y1 = arrayHeightBars[i] * heightFactor + this.minHeight;
-        y2 = createY(i, sideLength, heightFactor);
-        y3 = createY(i, sideLength*2, heightFactor);
-        y4 = createY(i, sideLength*3, heightFactor);
+        y2 = createY(i+sideLength, heightFactor);
+        y3 = createY(i+sideLength*2, heightFactor);
+        y4 = createY(i+sideLength*3, heightFactor);
 
         ptsRight.push(rightX - y1); ptsRight.push(bottomY - i);
         ptsTop.push(rightX - i); ptsTop.push(y2);
@@ -94,9 +94,9 @@ class Wave4 extends WaveSuperClass {
         let y1, y2, y3, y4;
 
         y1 = arrayHeightBars[i] * heightFactor + this.minHeight;
-        y2 = createY(i, sideLength, heightFactor);
-        y3 = createY(i, sideLength*2, heightFactor);
-        y4 = createY(i, sideLength*3, heightFactor);
+        y2 = createY(i+sideLength, heightFactor);
+        y3 = createY(i+sideLength*2, heightFactor);
+        y4 = createY(i+sideLength*3, heightFactor);
 
         ptsBottom.push(i + leftX + diff); ptsBottom.push(bottomY - diff - y1);
         ptsRight.push(rightX - diff - y2); ptsRight.push(bottomY - diff - i);
