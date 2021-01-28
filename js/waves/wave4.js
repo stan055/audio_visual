@@ -70,7 +70,6 @@ class Wave4 extends WaveSuperClass {
     for (var i = 0; i < pts.length - 2; i += 1) {
       cps = cps.concat(this.ctlpts(pts[2 * i], pts[2 * i + 1], pts[2 * i + 2], pts[2 * i + 3], pts[2 * i + 4], pts[2 * i + 5]));
     }
-    this.ctx.fillStyle = this.ctx.strokeStyle;
     this.drawCurvedPath(cps, pts);
   }
 
@@ -165,13 +164,14 @@ class Wave4 extends WaveSuperClass {
     const pts2 = createSplinePoints2(heightDiff);
 
     this.ctx.strokeStyle = this.styles[0][1];
+    this.ctx.fillStyle = this.ctx.strokeStyle;
 
     for (let i = 0; i < pts1.length; i++) {
-      this.drawSplines(pts1[i]);
+      smoothPath(this.ctx, pts1[i], this.tension);
       this.fillOfCurvePath(pointsToFill1[i][0], pointsToFill1[i][1], pointsToFill1[i][2], pointsToFill1[i][3]);
     }
     for (let i = 0; i < pts2.length; i++) {
-      this.drawSplines(pts2[i]);
+      smoothPath(this.ctx, pts2[i], this.tension);
       this.fillOfCurvePath(pointsToFill2[i][0], pointsToFill2[i][1], pointsToFill2[i][2], pointsToFill2[i][3]);
     }
   }

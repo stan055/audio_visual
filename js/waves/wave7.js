@@ -49,11 +49,12 @@ class Wave7 extends WaveSuperClass {
     }
     this.ctx.quadraticCurveTo(cps[(2 * (i - 1) - 1) * 2], cps[(2 * (i - 1) - 1) * 2 + 1],
       pts[i * 2], pts[i * 2 + 1]);
+  }
 
-    // Closure
-    this.ctx.lineTo(this.canvasWidth, this.canvasHeight);
-    this.ctx.lineTo(0, this.canvasHeight);
 
+  fillOfCurvePath(x1, y1, x2, y2) {
+    this.ctx.lineTo(x1, y1);
+    this.ctx.lineTo(x2, y2);
     this.ctx.stroke();
     this.ctx.fill();
   }
@@ -64,10 +65,10 @@ class Wave7 extends WaveSuperClass {
     for (var i = 0; i < pts.length - 2; i += 1) {
       cps = cps.concat(this.ctlpts(pts[2 * i], pts[2 * i + 1], pts[2 * i + 2], pts[2 * i + 3], pts[2 * i + 4], pts[2 * i + 5]));
     }
-    this.ctx.fillStyle = this.ctx.strokeStyle;
     this.drawCurvedPath(cps, pts);
   }
 
+  
   draw(arrayHeightBars) {
     this.clearCanvas(this.chromakeyColor);
 
@@ -91,6 +92,9 @@ class Wave7 extends WaveSuperClass {
     const pts1 = createSplinePoints(1);
 
     this.ctx.strokeStyle = this.styles[0][1];
-    this.drawSplines(pts1);
+    this.ctx.fillStyle = this.ctx.strokeStyle;
+    
+    smoothPath(this.ctx, pts1, this.tension);
+    this.fillOfCurvePath(this.canvasWidth, this.canvasHeight, 0, this.canvasHeight);
   }
 }

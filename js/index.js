@@ -34,3 +34,14 @@ document.getElementById('file').addEventListener('change', function(event){
   recursiveDrawAudio()
   audio.play();
 });
+
+
+document.getElementById('inputWidth').addEventListener('change', function(event){
+  const canvas = document.getElementById('visualizer')
+  canvas.width = event.target.value;
+});
+
+document.getElementById('inputHeight').addEventListener('change', function(event){
+  const canvas = document.getElementById('visualizer')
+  canvas.height = event.target.value;
+});

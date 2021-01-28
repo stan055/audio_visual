@@ -70,10 +70,19 @@ main h3 {
 }
 main .wave {
   position: absolute;
-  display: flex;
   top: 40vh;
   z-index: -1;
   pointer-events: none;
   border: 1px solid grey;
 }
 
+footer .inputs-range{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  bottom: 170px;
+  min-width: 400px;
+  left: calc(50% - 400px / 2);
+}
