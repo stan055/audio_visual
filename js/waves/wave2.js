@@ -49,7 +49,7 @@ class Wave2 extends WaveSuperClass {
     }
 
 
-    arrayHeightBars = this.filter(arrayHeightBars, this.bassCount, 0.9);
+    arrayHeightBars = this.filterAudio(arrayHeightBars, this.bassCount, 0.9);
 
     const pts = createSplinePoints(1, 0.75, 0.45, 0.55);
 

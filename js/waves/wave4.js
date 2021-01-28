@@ -108,7 +108,7 @@ class Wave4 extends WaveSuperClass {
     }
 
 
-    arrayHeightBars = this.filter(arrayHeightBars, this.bassCount, 0.6);
+    arrayHeightBars = this.filterAudio(arrayHeightBars, this.bassCount, 0.6);
 
     const pts1 = createSplinePoints1();
     const pts2 = createSplinePoints2(heightDiff);

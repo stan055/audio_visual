@@ -40,7 +40,7 @@ class WaveSuperClass {
     }
   }
 
-  filter(array, count, factor) {
+  filterAudio(array, count, factor) {
     for (let i = 0; i < count; i++) {
       array[i] = array[i] * factor;
     }
