@@ -1,9 +1,6 @@
 class WaveSuperClass {
   fftSize = 2048;
   minDecibels = -100;
-  bassLower = 0.15;
-  bassMidle = 0.5;
-  bassTreble = 0.9;
   bassCount = 150;
   chromakeyColor = 'green';
   ctx;
@@ -43,12 +40,11 @@ class WaveSuperClass {
     }
   }
 
-
-  lowerBass(arrayHeightBars, count, factor) {
+  filter(array, count, factor) {
     for (let i = 0; i < count; i++) {
-      arrayHeightBars[i] = arrayHeightBars[i] * factor;
+      array[i] = array[i] * factor;
     }
-    return arrayHeightBars;
+    return array;
   }
 }
 
