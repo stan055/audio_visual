@@ -1,12 +1,13 @@
 class Wave3 extends WaveSuperClass {
   waveWidth = 0.06; // 0.02-0.1
-  waveHeightFactor = 5;
+  waveHeight = 1;
+  waveHeightFactor = 0.05;
   tension = 0.4;
   fftSize = 2048 * 4;
-  minDecibels = -80;
+  minDecibels = -85;
   styles = [[1, 'rgb(255, 250, 250)']];
   lineWidth = 1;
-  factorRadiusOfCircles = [5.5, 3.8, 2]; // Difference factor radius of circles
+  factorRadiusOfCircles = [4.5, 2.8, 1]; // Difference factor radius of circles
 
   
   constructor(canvas) {
@@ -16,6 +17,7 @@ class Wave3 extends WaveSuperClass {
 
   draw(arrayHeightBars) {
     this.clearCanvas();
+    this.waveHeight = this.canvasHeight * this.waveHeightFactor;
 
     const createSplinePoints = (hFactor, radius) => {
       // Create points addSplinePoint(x, y)
@@ -54,8 +56,8 @@ class Wave3 extends WaveSuperClass {
 
     for (let i = 0; i < this.factorRadiusOfCircles.length; i++) {
       pts[i] = createSplinePoints(
-        this.waveHeightFactor,
-        this.canvasHeight / 2 - this.waveHeightFactor / 2 * this.factorRadiusOfCircles[i]);
+        this.waveHeight,
+        this.canvasHeight / 2 - this.waveHeight / 2 * this.factorRadiusOfCircles[i]);
 
       if (arrayHeightBars.length - steps > steps) arrayHeightBars = arrayHeightBars.slice(steps);
     }
