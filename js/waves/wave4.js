@@ -3,7 +3,7 @@ class Wave4 extends WaveSuperClass {
   waveWidth = 0.2;
   tension = 0.4;
   fftSize = 2048 * 4;
-  minDecibels = -70;
+  minDecibels = -75;
   styles = [[1, 'rgb(252, 252, 252)']];
   heightWaveFactorOutside = 0.16;     // height wave factor outside square
   heightWaveFactorInside = 0.16;      // height wave factor inside square
