@@ -5,8 +5,9 @@ class Wave5 extends WaveSuperClass {
   widthInPercent = 0.5; // (0-1)
   startX = 0;
   fftSize = 512;
-  styles = [[1, 'hsl(150, 100%, 78%)']];
-
+  styles = [[1, 'rgb(143, 255, 199)']];
+  chromakeyColor;
+  
 
   constructor(canvas) {
     super(canvas)
@@ -19,7 +20,7 @@ class Wave5 extends WaveSuperClass {
 
 
   draw(arrayHeightBars) {
-    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+    this.clearCanvas(this.chromakeyColor);
 
     this.ctx.strokeStyle = this.styles[0][1];
 

@@ -1,6 +1,10 @@
 class WaveSuperClass {
   fftSize = 2048;
   minDecibels = -100;
+  bassLower = 0.15;
+  bassMidle = 0.5;
+  bassTreble = 0.9;
+  bassCount = 150;
   ctx;
   canvas;
 
@@ -25,5 +29,24 @@ class WaveSuperClass {
 
     this._cachedCanvasWidth =  this.canvas.width
     return this._cachedCanvasWidth
+  }
+
+
+  clearCanvas(chromakeyColor) {
+    if (chromakeyColor) {
+      this.ctx.beginPath();
+      this.ctx.fillStyle = chromakeyColor;
+      this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+    } else {
+      this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+    }
+  }
+
+
+  lowerBass(arrayHeightBars, count, factor) {
+    for (let i = 0; i < count; i++) {
+      arrayHeightBars[i] = arrayHeightBars[i] * factor;
+    }
+    return arrayHeightBars;
   }
 }
