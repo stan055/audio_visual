@@ -126,3 +126,11 @@ class Wave4 extends WaveSuperClass {
     }
   }
 }
+
+
+const prewievWave = (canvas) => {
+  let array = new Float32Array(2000);
+  const min = 0, max = 0.2;
+  array = array.map(e => e = Math.random() * (max - min) + min);
+  new Wave4(canvas).draw(array);
+} 

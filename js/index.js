@@ -21,7 +21,7 @@ document.getElementById('file').addEventListener('change', function(event){
 
   analyser.connect(audioCtx.destination);
 
-  const canvas = document.getElementById('visualizer')
+  const canvas = document.getElementById('visualizer');
 
   const wave = initWave(analyser, canvas);
   analyser.fftSize = wave.fftSize
@@ -37,11 +37,17 @@ document.getElementById('file').addEventListener('change', function(event){
 
 
 document.getElementById('inputWidth').addEventListener('change', function(event){
-  const canvas = document.getElementById('visualizer')
+  const canvas = document.getElementById('visualizer');
   canvas.width = event.target.value;
 });
 
 document.getElementById('inputHeight').addEventListener('change', function(event){
-  const canvas = document.getElementById('visualizer')
+  const canvas = document.getElementById('visualizer');
   canvas.height = event.target.value;
 });
+
+
+(() => {
+  const canvas = document.getElementById('visualizer');
+  prewievWave(canvas);
+})();

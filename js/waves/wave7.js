@@ -50,3 +50,11 @@ class Wave7 extends WaveSuperClass {
     this.fillOfCurvePath(this.canvasWidth, this.canvasHeight, 0, this.canvasHeight);
   }
 }
+
+
+const prewievWave = (canvas) => {
+  let array = new Float32Array(1000);
+  const min = 0, max = 0.6;
+  array = array.map(e => e = Math.random() * (max - min) + min);
+  new Wave7(canvas).draw(array);
+} 

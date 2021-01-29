@@ -35,3 +35,11 @@ class Wave5 extends WaveSuperClass {
     }
   }
 }
+
+
+const prewievWave = (canvas) => {
+  let array = new Float32Array(100);
+  const min = 0.5, max = 0.7;
+  array = array.map(e => e = Math.random() * (max - min) + min);
+  new Wave5(canvas).draw(array);
+} 

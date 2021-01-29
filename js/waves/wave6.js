@@ -38,3 +38,15 @@ class Wave6 extends WaveSuperClass {
     }
   }
 }
+
+
+const prewievWave = (canvas) => {
+  let array = new Float32Array(300);
+  let min = 0.1, max = 0.4;
+  array = array.map(e => {
+    e = Math.random() * (max - min) + min;    
+    max = max > 0 ? max - 0.1 : 0.7;
+    return e;
+  });
+  new Wave6(canvas).draw(array);
+} 
