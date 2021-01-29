@@ -63,7 +63,16 @@ class Wave1 extends WaveSuperClass {
 
 const prewievWave = (canvas) => {
   let array = new Float32Array(1500);
-  const min = 0, max = 0.6;
-  array = array.map(e => e = Math.random() * (max - min) + min);
+  const min1 = 0, max1 = 0.3;
+  const min2 = 0.3, max2 = 0.6;
+
+  for (let i = 0; i < array.length; i+=30) {
+    for (let ii = 0; ii < 20; ii++) {
+      array[i+ii] = Math.random() * (max1 - min1) + min1
+    }
+    for (let ii = 20; ii < 30; ii++) {
+      array[i+ii] = Math.random() * (max2 - min2) + min2
+    }
+  }
   new Wave1(canvas).draw(array);
 } 
