@@ -7,7 +7,7 @@ class Wave6 extends WaveSuperClass {
   heightBarFactor = 1.1;
   fftSize = 2048;
   minDecibels = -60;
-  styles = [[1, 'rgb(191, 224, 249)']];
+  styles = [{ alpha: 1, color: 'rgb(191, 224, 249)'}];
   
 
   constructor(canvas) {
@@ -24,7 +24,7 @@ class Wave6 extends WaveSuperClass {
     this.clearCanvas();
 
     const midCanvasY = this.canvasHeight / 2;
-    this.ctx.strokeStyle = this.styles[0][1];
+    this.ctx.strokeStyle = this.styles[0].color;
 
     for (let i = 0; i < arrayHeightBars.length; i++) {
       this.ctx.beginPath();

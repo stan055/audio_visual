@@ -5,7 +5,7 @@ class Wave3 extends WaveSuperClass {
   tension = 0.4;
   fftSize = 2048 * 4;
   minDecibels = -85;
-  styles = [[1, 'rgb(255, 250, 250)']];
+  styles = [{ alpha: 1, color: 'rgb(255, 250, 250)'}];
   lineWidth = 1;
   factorRadiusOfCircles = [4.5, 2.8, 1]; // Difference factor radius of circles
 
@@ -63,7 +63,7 @@ class Wave3 extends WaveSuperClass {
     }
 
     this.ctx.lineWidth = this.lineWidth;
-    this.ctx.strokeStyle = this.styles[0][1];
+    this.ctx.strokeStyle = this.styles[0].color;
 
     pts.forEach(p => {
       this.smoothPath(this.ctx, p, this.tension);

@@ -3,7 +3,12 @@ class Wave2 extends WaveSuperClass {
   waveWidth = 0.085;
   tension = 0.4;
   fftSize = 2048 * 4;
-  styles = [[0.3, 'rgb(138, 36, 15)'], [0.4, 'rgb(230, 59, 25)'], [0.5, 'rgb(230, 77, 25)'], [0.5, 'rgb(236, 199, 147)']];
+  styles = [
+    { alpha: 0.3, color: 'rgb(138, 36, 15)'}, 
+    { alpha: 0.4, color: 'rgb(230, 59, 25)'}, 
+    { alpha: 0.5, color: 'rgb(230, 77, 25)'}, 
+    { alpha: 0.5, color: 'rgb(236, 199, 147)'}
+  ];
 
   
   constructor(canvas) {
@@ -55,8 +60,8 @@ class Wave2 extends WaveSuperClass {
     const pts = createSplinePoints(1, 0.75, 0.45, 0.55);
 
     for (let i = 0; i < pts.length; i++) {
-      this.ctx.globalAlpha = this.styles[i][0];
-      this.ctx.strokeStyle = this.styles[i][1];
+      this.ctx.globalAlpha = this.styles[i].alpha;
+      this.ctx.strokeStyle = this.styles[i].color;
       this.ctx.fillStyle = this.ctx.strokeStyle;
       this.smoothPath(this.ctx, pts[i], this.tension);
       this.fillOfCurvePath(this.canvasWidth, this.canvasHeight, 0, this.canvasHeight);

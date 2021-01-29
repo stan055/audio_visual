@@ -4,7 +4,7 @@ class Wave7 extends WaveSuperClass {
   tension = 0.4;
   fftSize = 2048 * 4;
   minDecibels = -80;
-  styles = [[1, 'rgb(255, 87, 244)']];
+  styles = [{ alpha: 1, color: 'rgb(255, 87, 244)'}];
 
   
   constructor(canvas) {
@@ -43,7 +43,7 @@ class Wave7 extends WaveSuperClass {
 
     const pts1 = createSplinePoints(1);
 
-    this.ctx.strokeStyle = this.styles[0][1];
+    this.ctx.strokeStyle = this.styles[0].color;
     this.ctx.fillStyle = this.ctx.strokeStyle;
     
     this.smoothPath(this.ctx, pts1, this.tension);
