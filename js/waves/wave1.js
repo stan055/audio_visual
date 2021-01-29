@@ -5,10 +5,10 @@ class Wave1 extends WaveSuperClass {
   fftSize = 2048 * 4;
   minDecibels = -70;
   styles = [
-      { heightFactor: 0.5, alpha: 0.5, color: 'rgb(0, 213, 255)'}, 
-      { heightFactor: 0.5, alpha: 0.5, color: 'rgb(0, 213, 255)'}, 
-      { heightFactor: 0.2, alpha: 1, color: 'rgb(0, 213, 255)'}, 
-      { heightFactor: 0.2, alpha: 1, color: 'rgb(0, 213, 255)'}
+      { heightFactor: 0.5, alpha: 0.5, color: 'rgb(0, 213, 255)' }, 
+      { heightFactor: 0.5, alpha: 0.5, color: 'rgb(0, 213, 255)' }, 
+      { heightFactor: 0.2, alpha: 1, color: 'rgb(0, 213, 255)' }, 
+      { heightFactor: 0.2, alpha: 1, color: 'rgb(0, 213, 255)' }
     ];
 
   constructor(canvas) {

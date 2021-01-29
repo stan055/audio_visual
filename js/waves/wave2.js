@@ -1,13 +1,14 @@
 class Wave2 extends WaveSuperClass {
   minHeight = 0.04;
-  waveWidth = 0.085;
+  waveWidth = 0.080;
   tension = 0.4;
   fftSize = 2048 * 4;
+  minDecibels = -95;
   styles = [
-    { heightFactor: 1, alpha: 0.3, color: 'rgb(138, 36, 15)'}, 
-    { heightFactor: 0.75, alpha: 0.4, color: 'rgb(230, 59, 25)'}, 
-    { heightFactor: 0.45, alpha: 0.5, color: 'rgb(230, 77, 25)'}, 
-    { heightFactor: 0.55, alpha: 0.5, color: 'rgb(236, 199, 147)'}
+    { heightFactor: 1, alpha: 0.3, color: 'rgb(138, 36, 15)' }, 
+    { heightFactor: 0.75, alpha: 0.4, color: 'rgb(230, 59, 25)' }, 
+    { heightFactor: 0.45, alpha: 0.5, color: 'rgb(230, 77, 25)' }, 
+    { heightFactor: 0.55, alpha: 0.5, color: 'rgb(236, 199, 147)' }
   ];
   
   constructor(canvas) {

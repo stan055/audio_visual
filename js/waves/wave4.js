@@ -4,7 +4,7 @@ class Wave4 extends WaveSuperClass {
   tension = 0.4;
   fftSize = 2048 * 4;
   minDecibels = -75;
-  styles = [{ alpha: 1, color: 'rgb(252, 252, 252)'}];
+  styles = [{ alpha: 1, color: 'rgb(252, 252, 252)' }];
   heightWaveFactorOutside = 0.16;     // height wave factor outside square
   heightWaveFactorInside = 0.16;      // height wave factor inside square
   heightDifferenceFactor = 0.1;       // height difference factor of squares

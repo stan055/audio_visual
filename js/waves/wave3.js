@@ -4,7 +4,7 @@ class Wave3 extends WaveSuperClass {
   tension = 0.4;
   fftSize = 2048 * 4;
   minDecibels = -85;
-  styles = [{ heightFactor: 0.05, alpha: 1, color: 'rgb(255, 250, 250)'}];
+  styles = [{ heightFactor: 0.05, alpha: 1, color: 'rgb(255, 250, 250)' }];
   lineWidth = 1;
   factorRadiusOfCircles = [4.5, 2.8, 1]; // Difference factor radius of circles
 

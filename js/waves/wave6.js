@@ -6,7 +6,7 @@ class Wave6 extends WaveSuperClass {
   startX = 0;
   fftSize = 2048;
   minDecibels = -60;
-  styles = [{ heightFactor: 1.1, alpha: 1, color: 'rgb(191, 224, 249)'}];
+  styles = [{ heightFactor: 1.1, alpha: 1, color: 'rgb(191, 224, 249)' }];
   
 
   constructor(canvas) {

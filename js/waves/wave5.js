@@ -5,7 +5,7 @@ class Wave5 extends WaveSuperClass {
   widthInPercent = 0.5; // (0-1)
   startX = 0;
   fftSize = 512;
-  styles = [{ alpha: 1, color: 'rgb(143, 255, 199)'}];
+  styles = [{ alpha: 1, color: 'rgb(143, 255, 199)' }];
   
 
   constructor(canvas) {
