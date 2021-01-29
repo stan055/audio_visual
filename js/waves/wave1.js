@@ -5,10 +5,10 @@ class Wave1 extends WaveSuperClass {
   fftSize = 2048 * 4;
   minDecibels = -70;
   styles = [
-      { alpha: 0.5, color: 'rgb(0, 213, 255)'}, 
-      { alpha: 0.5, color: 'rgb(0, 213, 255)'}, 
-      { alpha: 1, color: 'rgb(0, 213, 255)'}, 
-      { alpha: 1, color: 'rgb(0, 213, 255)'}
+      { heightFactor: 0.5, alpha: 0.5, color: 'rgb(0, 213, 255)'}, 
+      { heightFactor: 0.5, alpha: 0.5, color: 'rgb(0, 213, 255)'}, 
+      { heightFactor: 0.2, alpha: 1, color: 'rgb(0, 213, 255)'}, 
+      { heightFactor: 0.2, alpha: 1, color: 'rgb(0, 213, 255)'}
     ];
 
   constructor(canvas) {
@@ -52,7 +52,7 @@ class Wave1 extends WaveSuperClass {
     }
 
 
-    const pts = createSplinePoints(0.5, 0.2);
+    const pts = createSplinePoints(this.styles[0].heightFactor, this.styles[2].heightFactor);
     for (let i = 0; i < pts.length; i++) {
       this.ctx.globalAlpha = this.styles[i].alpha;
       this.ctx.strokeStyle = this.styles[i].color;

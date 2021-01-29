@@ -4,10 +4,9 @@ class Wave6 extends WaveSuperClass {
   barWidth = 1;
   widthInPercent = 0.4; // (0-1)
   startX = 0;
-  heightBarFactor = 1.1;
   fftSize = 2048;
   minDecibels = -60;
-  styles = [{ alpha: 1, color: 'rgb(191, 224, 249)'}];
+  styles = [{ heightFactor: 1.1, alpha: 1, color: 'rgb(191, 224, 249)'}];
   
 
   constructor(canvas) {
@@ -30,7 +29,7 @@ class Wave6 extends WaveSuperClass {
       this.ctx.beginPath();
 
       const step = this.barWidth * i + this.startX;
-      const heightBar = arrayHeightBars[i] * this.canvasHeight * this.heightBarFactor + this.minHeight;
+      const heightBar = arrayHeightBars[i] * this.canvasHeight * this.styles[0].heightFactor + this.minHeight;
 
       this.ctx.moveTo(step, midCanvasY + heightBar / 2);
       this.ctx.lineTo(step, midCanvasY - heightBar + heightBar / 2);

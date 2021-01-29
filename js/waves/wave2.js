@@ -4,12 +4,11 @@ class Wave2 extends WaveSuperClass {
   tension = 0.4;
   fftSize = 2048 * 4;
   styles = [
-    { alpha: 0.3, color: 'rgb(138, 36, 15)'}, 
-    { alpha: 0.4, color: 'rgb(230, 59, 25)'}, 
-    { alpha: 0.5, color: 'rgb(230, 77, 25)'}, 
-    { alpha: 0.5, color: 'rgb(236, 199, 147)'}
+    { heightFactor: 1, alpha: 0.3, color: 'rgb(138, 36, 15)'}, 
+    { heightFactor: 0.75, alpha: 0.4, color: 'rgb(230, 59, 25)'}, 
+    { heightFactor: 0.45, alpha: 0.5, color: 'rgb(230, 77, 25)'}, 
+    { heightFactor: 0.55, alpha: 0.5, color: 'rgb(236, 199, 147)'}
   ];
-
   
   constructor(canvas) {
     super(canvas)
@@ -57,7 +56,7 @@ class Wave2 extends WaveSuperClass {
 
     arrayHeightBars = this.filterAudio(arrayHeightBars, this.bassCount, 0.9);
 
-    const pts = createSplinePoints(1, 0.75, 0.45, 0.55);
+    const pts = createSplinePoints(this.styles[0].heightFactor, this.styles[1].heightFactor, this.styles[2].heightFactor, this.styles[3].heightFactor);
 
     for (let i = 0; i < pts.length; i++) {
       this.ctx.globalAlpha = this.styles[i].alpha;

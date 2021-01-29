@@ -24,14 +24,14 @@ class Wave7 extends WaveSuperClass {
   draw(arrayHeightBars) {
     this.clearCanvas();
 
-    const createSplinePoints = (hFactor1) => {
+    const createSplinePoints = () => {
       // Create points addSplinePoint(x, y)
       const pts1 = [];
       const step = Math.floor(this.canvasWidth * this.waveWidth); // Step should be an integer
 
       for (let i = 0; i <= this.canvasWidth + step; i += step) {
         const height = arrayHeightBars[i] * this.canvasHeight;
-        const y1 = height * hFactor1 + this.minHeight;
+        const y1 = height + this.minHeight;
 
         pts1.push(i); pts1.push(this.canvasHeight - y1);
 
@@ -41,7 +41,7 @@ class Wave7 extends WaveSuperClass {
 
     arrayHeightBars = this.filterAudio(arrayHeightBars, this.bassCount, 0.8);
 
-    const pts1 = createSplinePoints(1);
+    const pts1 = createSplinePoints();
 
     this.ctx.strokeStyle = this.styles[0].color;
     this.ctx.fillStyle = this.ctx.strokeStyle;
