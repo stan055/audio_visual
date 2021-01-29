@@ -67,14 +67,14 @@ class Wave2 extends WaveSuperClass {
 
 const prewievWave = (canvas) => {
   let array = new Float32Array(1500);
-  const min1 = 0.1, max1 = 0.4;
-  const min2 = 0.5, max2 = 0.7;
+  const min1 = 0.1, max1 = 0.3;
+  const min2 = 0.3, max2 = 0.7;
 
   for (let i = 0; i < array.length; i+=10) {
-    for (let ii = 0; ii < 5; ii++) {
+    for (let ii = 0; ii < 3; ii++) {
       array[i+ii] = Math.random() * (max1 - min1) + min1
     }
-    for (let ii = 5; ii < 10; ii++) {
+    for (let ii = 3; ii < 10; ii++) {
       array[i+ii] = Math.random() * (max2 - min2) + min2
     }
   }
