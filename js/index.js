@@ -23,7 +23,7 @@ document.getElementById('file').addEventListener('change', function(event){
 
   const canvas = document.getElementById('visualizer');
 
-  const wave = initWave(analyser, canvas);
+  const wave = initWave(canvas);
 
   analyser.fftSize = wave.fftSize
   if (wave.minDecibels) {
