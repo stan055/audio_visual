@@ -117,20 +117,20 @@ class Wave4 extends WaveSuperClass {
     this.ctx.fillStyle = this.ctx.strokeStyle;
 
     for (let i = 0; i < pts1.length; i++) {
-      smoothPath(this.ctx, pts1[i], this.tension);
+      this.smoothPath(this.ctx, pts1[i], this.tension);
       this.fillOfCurvePath(pointsToFill1[i][0], pointsToFill1[i][1], pointsToFill1[i][2], pointsToFill1[i][3]);
     }
     for (let i = 0; i < pts2.length; i++) {
-      smoothPath(this.ctx, pts2[i], this.tension);
+      this.smoothPath(this.ctx, pts2[i], this.tension);
       this.fillOfCurvePath(pointsToFill2[i][0], pointsToFill2[i][1], pointsToFill2[i][2], pointsToFill2[i][3]);
     }
   }
+
+
+  prewievDraw() {
+    let array = new Float32Array(2000);
+    const min = 0, max = 0.2;
+    array = array.map(e => e = Math.random() * (max - min) + min);
+    this.draw(array);
+  } 
 }
-
-
-const prewievWave = (canvas) => {
-  let array = new Float32Array(2000);
-  const min = 0, max = 0.2;
-  array = array.map(e => e = Math.random() * (max - min) + min);
-  new Wave4(canvas).draw(array);
-} 

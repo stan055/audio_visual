@@ -57,26 +57,25 @@ class Wave2 extends WaveSuperClass {
       this.ctx.globalAlpha = this.styles[i][0];
       this.ctx.strokeStyle = this.styles[i][1];
       this.ctx.fillStyle = this.ctx.strokeStyle;
-      smoothPath(this.ctx, pts[i], this.tension);
+      this.smoothPath(this.ctx, pts[i], this.tension);
       this.fillOfCurvePath(this.canvasWidth, this.canvasHeight, 0, this.canvasHeight);
     }
   }
+
+
+  prewievDraw() {
+    let array = new Float32Array(1500);
+    const min1 = 0.1, max1 = 0.3;
+    const min2 = 0.3, max2 = 0.7;
+  
+    for (let i = 0; i < array.length; i+=10) {
+      for (let ii = 0; ii < 3; ii++) {
+        array[i+ii] = Math.random() * (max1 - min1) + min1
+      }
+      for (let ii = 3; ii < 10; ii++) {
+        array[i+ii] = Math.random() * (max2 - min2) + min2
+      }
+    }
+    this.draw(array);
+  } 
 }
-
-
-
-const prewievWave = (canvas) => {
-  let array = new Float32Array(1500);
-  const min1 = 0.1, max1 = 0.3;
-  const min2 = 0.3, max2 = 0.7;
-
-  for (let i = 0; i < array.length; i+=10) {
-    for (let ii = 0; ii < 3; ii++) {
-      array[i+ii] = Math.random() * (max1 - min1) + min1
-    }
-    for (let ii = 3; ii < 10; ii++) {
-      array[i+ii] = Math.random() * (max2 - min2) + min2
-    }
-  }
-  new Wave2(canvas).draw(array);
-} 

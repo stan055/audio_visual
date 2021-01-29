@@ -66,16 +66,16 @@ class Wave3 extends WaveSuperClass {
     this.ctx.strokeStyle = this.styles[0][1];
 
     pts.forEach(p => {
-      smoothPath(this.ctx, p, this.tension);
+      this.smoothPath(this.ctx, p, this.tension);
       this.ctx.stroke();
     });
   }
+
+
+  prewievDraw() {
+    let array = new Float32Array(2000);
+    const min = 0, max = 0.2;
+    array = array.map(e => e = Math.random() * (max - min) + min);
+    this.draw(array);
+  } 
 }
-
-
-const prewievWave = (canvas) => {
-  let array = new Float32Array(2000);
-  const min = 0, max = 0.2;
-  array = array.map(e => e = Math.random() * (max - min) + min);
-  new Wave3(canvas).draw(array);
-} 
