@@ -72,7 +72,7 @@ class Wave3 extends WaveSuperClass {
   }
 
 
-  prewievDraw() {
+  drawPrewiev() {
     let array = new Float32Array(2000);
     const min = 0, max = 0.2;
     array = array.map(e => e = Math.random() * (max - min) + min);

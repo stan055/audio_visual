@@ -31,9 +31,10 @@ class Wave2 extends WaveSuperClass {
       const pts4 = [];
 
       const step = Math.floor(this.canvasWidth * this.waveWidth); // Step should be an integer
+      let j = 25;
 
-      for (let i = 0; i <= this.canvasWidth + step; i += step) {
-        const height = arrayHeightBars[i] * this.canvasHeight;
+      for (let i = 0; i <= this.canvasWidth + step; i += step, j+=25) {
+        const height = arrayHeightBars[j] * this.canvasHeight;
 
         const y1 = height * hFactor1 + this.minHeight;
         const y2 = height * hFactor2 + this.minHeight;
@@ -63,7 +64,7 @@ class Wave2 extends WaveSuperClass {
   }
 
 
-  prewievDraw() {
+  drawPrewiev() {
     let array = new Float32Array(1500);
     const min1 = 0.1, max1 = 0.3;
     const min2 = 0.3, max2 = 0.7;

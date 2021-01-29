@@ -7,7 +7,7 @@ class Wave6 extends WaveSuperClass {
   heightBarFactor = 1.1;
   fftSize = 2048;
   minDecibels = -60;
-  styles = [[1, 'rgb(161, 144, 249)']];
+  styles = [[1, 'rgb(191, 224, 249)']];
   
 
   constructor(canvas) {
@@ -39,7 +39,7 @@ class Wave6 extends WaveSuperClass {
   }
 
   
-  prewievDraw() {
+  drawPrewiev() {
     let array = new Float32Array(300);
     let min = 0.1, max = 0.4;
     array = array.map(e => {
