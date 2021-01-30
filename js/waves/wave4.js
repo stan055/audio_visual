@@ -64,14 +64,15 @@ class Wave4 extends WaveSuperClass {
       const ptsLeft = [];
       const step = Math.floor(sideLength * this.waveWidth); // Step should be an integer
       const heightFactor = sideLength * this.heightWaveFactorOutside;
+      const sideAudioLength = (sideLength / step * this.audioStep) >> 0;
       
       for (let i = 0, j = 0; i <= sideLength; i += step, j += this.audioStep) {
         let y1, y2, y3, y4;
 
         y1 = arrayHeightBars[j] * heightFactor + this.minHeight;
-        y2 = createY(j+sideLength, heightFactor);
-        y3 = createY(j+sideLength*2, heightFactor);
-        y4 = createY(j+sideLength*3, heightFactor);
+        y2 = createY(j+sideAudioLength, heightFactor);
+        y3 = createY(j+sideAudioLength*2, heightFactor);
+        y4 = createY(j+sideAudioLength*3, heightFactor);
 
         ptsRight.push(rightX - y1); ptsRight.push(bottomY - i);
         ptsTop.push(rightX - i); ptsTop.push(y2);
@@ -90,14 +91,15 @@ class Wave4 extends WaveSuperClass {
       const ptsLeft = [];
       const step = Math.floor(sideLength * this.waveWidth); // Step should be an integer
       const heightFactor = this.sideLength * this.heightWaveFactorInside;
+      const sideAudioLength = (sideLength / step * this.audioStep) >> 0;
 
       for (let i = 0, j = 0; i <= sideLength; i += step, j += this.audioStep) {
         let y1, y2, y3, y4;
 
         y1 = arrayHeightBars[j] * heightFactor + this.minHeight;
-        y2 = createY(j+sideLength, heightFactor);
-        y3 = createY(j+sideLength*2, heightFactor);
-        y4 = createY(j+sideLength*3, heightFactor);
+        y2 = createY(j+sideAudioLength, heightFactor);
+        y3 = createY(j+sideAudioLength*2, heightFactor);
+        y4 = createY(j+sideAudioLength*3, heightFactor);
 
         ptsBottom.push(i + leftX + diff); ptsBottom.push(bottomY - diff - y1);
         ptsRight.push(rightX - diff - y2); ptsRight.push(bottomY - diff - i);
