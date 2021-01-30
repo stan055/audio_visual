@@ -4,6 +4,7 @@ class Wave4 extends WaveSuperClass {
   tension = 0.4;
   fftSize = 2048 * 4;
   minDecibels = -75;
+  audioStep = 5;
   styles = [{ alpha: 1, color: 'rgb(252, 252, 252)' }];
   heightWaveFactorOutside = 0.16;     // height wave factor outside square
   heightWaveFactorInside = 0.16;      // height wave factor inside square
@@ -49,7 +50,7 @@ class Wave4 extends WaveSuperClass {
 
     const createY = (i, heightFactor) => {
       if (i < arrayHeightBars.length)
-        return arrayHeightBars[i >> 0] * heightFactor + this.minHeight;
+        return arrayHeightBars[i] * heightFactor + this.minHeight;
       else
         return this.minHeight;
     }
@@ -63,14 +64,14 @@ class Wave4 extends WaveSuperClass {
       const ptsLeft = [];
       const step = Math.floor(sideLength * this.waveWidth); // Step should be an integer
       const heightFactor = sideLength * this.heightWaveFactorOutside;
-
-      for (let i = 0; i <= sideLength; i += step) {
+      
+      for (let i = 0, j = 0; i <= sideLength; i += step, j += this.audioStep) {
         let y1, y2, y3, y4;
 
-        y1 = arrayHeightBars[i] * heightFactor + this.minHeight;
-        y2 = createY(i+sideLength, heightFactor);
-        y3 = createY(i+sideLength*2, heightFactor);
-        y4 = createY(i+sideLength*3, heightFactor);
+        y1 = arrayHeightBars[j] * heightFactor + this.minHeight;
+        y2 = createY(j+sideLength, heightFactor);
+        y3 = createY(j+sideLength*2, heightFactor);
+        y4 = createY(j+sideLength*3, heightFactor);
 
         ptsRight.push(rightX - y1); ptsRight.push(bottomY - i);
         ptsTop.push(rightX - i); ptsTop.push(y2);
@@ -90,13 +91,13 @@ class Wave4 extends WaveSuperClass {
       const step = Math.floor(sideLength * this.waveWidth); // Step should be an integer
       const heightFactor = this.sideLength * this.heightWaveFactorInside;
 
-      for (let i = 0; i <= sideLength; i += step) {
+      for (let i = 0, j = 0; i <= sideLength; i += step, j += this.audioStep) {
         let y1, y2, y3, y4;
 
-        y1 = arrayHeightBars[i] * heightFactor + this.minHeight;
-        y2 = createY(i+sideLength, heightFactor);
-        y3 = createY(i+sideLength*2, heightFactor);
-        y4 = createY(i+sideLength*3, heightFactor);
+        y1 = arrayHeightBars[j] * heightFactor + this.minHeight;
+        y2 = createY(j+sideLength, heightFactor);
+        y3 = createY(j+sideLength*2, heightFactor);
+        y4 = createY(j+sideLength*3, heightFactor);
 
         ptsBottom.push(i + leftX + diff); ptsBottom.push(bottomY - diff - y1);
         ptsRight.push(rightX - diff - y2); ptsRight.push(bottomY - diff - i);
