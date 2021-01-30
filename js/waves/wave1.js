@@ -3,6 +3,7 @@ class Wave1 extends WaveSuperClass {
   waveWidth = 0.017;
   tension = 0.2;
   fftSize = 2048 * 4;
+  audioStep = 5;
   minDecibels = -70;
   styles = [
       { heightFactor: 0.5, alpha: 0.5, color: 'rgb(0, 213, 255)' }, 
@@ -37,8 +38,8 @@ class Wave1 extends WaveSuperClass {
       const pts2Mirror = [];
       const step = Math.floor(this.canvasWidth * this.waveWidth); // Step should be an integer
 
-      for (let i = 0; i <= this.canvasWidth + step; i += step) {
-        const height = arrayHeightBars[i] * this.canvasHeight;
+      for (let i = 0, j = 0; i <= this.canvasWidth + step; i += step, j += this.audioStep) {
+        const height = arrayHeightBars[j] * this.canvasHeight;
         const y1 = height * hFactor1 + this.minHeight;
         const y2 = height * hFactor2 + this.minHeight;
 

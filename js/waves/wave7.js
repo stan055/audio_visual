@@ -3,6 +3,7 @@ class Wave7 extends WaveSuperClass {
   waveWidth = 0.085;
   tension = 0.4;
   fftSize = 2048 * 4;
+  audioStep = 15;
   minDecibels = -80;
   styles = [{ alpha: 1, color: 'rgb(255, 87, 244)' }];
 
@@ -29,8 +30,8 @@ class Wave7 extends WaveSuperClass {
       const pts1 = [];
       const step = Math.floor(this.canvasWidth * this.waveWidth); // Step should be an integer
 
-      for (let i = 0; i <= this.canvasWidth + step; i += step) {
-        const height = arrayHeightBars[i] * this.canvasHeight;
+      for (let i = 0, j = 0; i <= this.canvasWidth + step; i += step, j += this.audioStep) {
+        const height = arrayHeightBars[j] * this.canvasHeight;
         const y1 = height + this.minHeight;
 
         pts1.push(i); pts1.push(this.canvasHeight - y1);
