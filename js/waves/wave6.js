@@ -38,7 +38,7 @@ class Wave6 extends WaveSuperClass {
   }
 
   
-  drawPrewiev() {
+  drawPreview() {
     let array = new Float32Array(300);
     let min = 0.1, max = 0.4;
     array = array.map(e => {

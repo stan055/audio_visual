@@ -36,7 +36,7 @@ class Wave5 extends WaveSuperClass {
   }
 
 
-  drawPrewiev() {
+  drawPreview() {
     let array = new Float32Array(100);
     const min1 = 0.1, max1 = 0.4;
     const min2 = 0.5, max2 = 0.8;

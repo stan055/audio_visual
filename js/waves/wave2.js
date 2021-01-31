@@ -69,7 +69,7 @@ class Wave2 extends WaveSuperClass {
   }
 
 
-  drawPrewiev() {
+  drawPreview() {
     let array = new Float32Array(1500);
     const min1 = 0.1, max1 = 0.3;
     const min2 = 0.3, max2 = 0.7;

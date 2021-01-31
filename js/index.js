@@ -52,5 +52,5 @@ document.getElementById('inputHeight').addEventListener('change', function(event
 $( document ).ready(function() {
   const canvas = document.getElementById('visualizer');
   const wave = initWave(canvas);
-  wave.drawPrewiev();
+  wave.drawPreview();
 });
